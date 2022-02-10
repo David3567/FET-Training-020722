@@ -1,0 +1,162 @@
+:root{
+    --background-color:rgb(65, 62, 62);
+    --card-color:#000;
+    --color:#fff;
+    --download-color:rgb(47, 26, 240);
+}
+
+*{
+    margin:0;
+    padding:0;
+}
+
+body{
+    height:100vh;
+    width:100vw;
+    background-color:var(--background-color);
+}
+.container{
+    height:100vh;
+    width:100vw;
+    background-color:var(--background-color);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+    
+.story-card {
+    height:50vh;
+    width:100vw;
+    background-color:var(--card-color);
+    color:var(--color);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+    align-items:center;
+    padding-top:5vh;
+    padding-bottom:5vh;
+}
+
+        .story-card-head{
+            height:15vh;
+            width:100vw;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+        }
+                .story-card-title{
+                    height:8vh;
+                    width:100vw;
+                    overflow:wrap;
+                    color:#fff;
+                    line-height:2em;
+                    font:3.5vw  "Helvetica";
+                    text-align:center;
+                }
+
+                .story-card-text{
+                    height:5vh;
+                    width:80vw;
+                    color:#fff;
+                    font:4vw "Helvetica";
+                    text-align:center;
+                }
+
+        .story-card-image{
+            background-image:url("images/story-card-img.jpg");
+            background-position:center;
+            background-repeat:no-repeat;
+            background-size:100vw 30vh;
+            height:30vh;
+            width:100vw;
+            display:flex;
+            flex-direction:column-reverse;
+            align-items:center;
+        }
+                .story-card-animation{
+                    background-color:var(--card-color);
+                    margin-bottom:3vh;
+                    position:absolute;
+                    display:flex;
+                    flex-direction:row;
+                    justify-content:space-between;
+                    height:5vh;
+                    width:60vw;
+                    border:2px solid rgba(255,255,255,.25);
+                    border-radius:.75em;
+                    box-shadow: 0 0 2em 0 #000;
+                }
+                        .stranger-things{
+                            background-image:url("images/strangerthings.png");
+                            background-size:contain;
+                            background-repeat:no-repeat;
+                            background-position:center;
+                            height:100%;
+                            width:30%;
+                        }
+                        .text-0{
+                            
+                            padding-top:10px;
+                            font-size:3.5vw;
+                        }
+                        .text-1{
+                            font-size:2vw;
+                            color:var(--download-color);
+                        }
+                        .download{
+                            background-image:url("images/download-icon.gif");
+                            background-repeat:no-repeat;
+                            background-size:5vh 5vh;
+                            height:10vw;
+                            width:10vw;
+                        }
+
+@media (min-width:650px){
+    .story-card{
+        flex-direction:row-reverse;
+    }
+            .story-card-head{
+                width:60vw;
+                height:30vh;
+            }
+                    .story-card-title{
+                        height:20vh;
+                        width:60vw;
+                        font-size:3vh;
+                    }
+                    .story-card-text{
+                        height:10vh;
+                        width:60vw;
+                        font-size:2vh;
+                    }
+            
+            .story-card-image{
+                height:30vh;
+                width:40vw;
+                background-size:cover;
+            }
+                    .story-card-animation{
+                        height:8vh;
+                        width:20vw;
+                        justify-content:space-between;
+                        align-items:center;
+                        margin-bottom:1vh;
+                    }
+                            .stranger-things{
+                                height:100%;
+                                width:30%;
+                            }
+                            .text-0{
+                                padding-top:2px;
+                                width:20vw;
+                                font-size:2vh;
+                                padding-left:1vw;
+                            }
+                            .text-1{
+                                font-size:1.75vh;
+                            }
+                            .download{
+                                height:8vh;
+                                width:8vh;
+                            }
+    }
