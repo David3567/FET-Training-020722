@@ -46,12 +46,12 @@ function findLongestWord(s) {
 //console.log(findLongestWord('Web Development Tutorial'))
 
 //7. Write a JavaScript function that accepts a string as a parameter and counts the number of vowels within the string.
-function countVowel(s){
-    const vowels="aeiou"
-    let count=0
-    for(i=0;i<s.length;i++){
-        if(vowels.includes(s[i].toLowerCase())){
-            count+=1
+function countVowel(s) {
+    const vowels = "aeiou"
+    let count = 0
+    for (i = 0; i < s.length; i++) {
+        if (vowels.includes(s[i].toLowerCase())) {
+            count += 1
         }
     }
     return count
@@ -93,10 +93,15 @@ function findSecondMaxSecondLowest(a) {
 //13. Write a JavaScript function to compute the factors of a positive integer.
 //14. Write a JavaScript function to convert an amount to coins.
 //15. Write a JavaScript function to compute the value of bn where n is the exponent and b is the bases. Accept b and n from the user and display the result.
+function computeBn(b, n) {
+    return Math.pow(b, n)
+}
 //16. Write a JavaScript function to extract unique characters from a string.
-function findUniqueCharFromStr() {
+function findUniqueCharFromStr(s) {
     return Array.from(new Set(s)).join("")
 }
+//console.log(findUniqueCharFromStr("thequickbrownfoxjumpsoverthelazydog"))
+
 //17. Write a JavaScript function to get the number of occurrences of each letter in specified string.
 //18. Write a function for searching JavaScript arrays with a binary search.
 //19. Write a JavaScript function that returns array elements larger than a number.
@@ -104,11 +109,11 @@ function findUniqueCharFromStr() {
 
 //21. Write a JavaScript function to get all possible subset with a fixed length (for example 2) combinations in an array.
 //22. Write a JavaScript function that accepts two arguments, a string and a letter and the function will count the number of occurrences of the specified letter within the string.
-function findOccurance(s,l){
+function findOccurance(s, l) {
     let count = 0
-    for(let i=0;i<s.length;i++){
-        if(s[i]===l){
-            count+=1
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === l) {
+            count += 1
         }
     }
     return count
@@ -126,9 +131,9 @@ function findLongestCountry(a) {
 
 //26. Write a JavaScript function to find longest substring in a given a string without repeating characters.
 function longestUniqueString(s) {
-    
+
 }
-//console.log(longestUniqueString("thequickbrownfoxjumpsoverthelazydog"))
+
 
 //27. Write a JavaScript function that returns the longest palindrome in a given string.
 function longestPalindromeInString() {
