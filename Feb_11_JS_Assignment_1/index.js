@@ -1,3 +1,5 @@
+const { group } = require("console");
+
 /* 
 1. Write a JavaScript function that reverse a number. 
 Example x = 32243;
@@ -311,8 +313,26 @@ combinations in an array.
 Sample array: [1, 2, 3] and subset length is 2 
 Expected output: [[2, 1], [3, 1], [3, 2]]
 */
-var subset = (arr, n) => {
-  let set = [], temp = [];
+function subset(arr, arr_size) {
+  var result_set = [],
+    result;
+
+
+  for (var x = 0; x < Math.pow(2, arr.length); x++) {
+    result = [];
+    i = arr.length - 1;
+    do {
+      if ((x & (1 << i)) !== 0) {
+        result.push(arr[i]);
+      }
+    } while (i--);
+
+    if (result.length == arr_size) {
+      result_set.push(result);
+    }
+  }
+
+  return result_set;
 }
 
 console.log(subset([1, 2, 3], 2));
@@ -401,22 +421,21 @@ var longestSubstring = (s) => {
 
 console.log(longestSubstring("google.com"));
 
-/*
-27. Write a JavaScript function that returns the longest palindrome in a given string. 
-Note: According to Wikipedia "In computer science, the longest palindromic substring or longest
-symmetric factor problem is the problem of finding a maximum-length contiguous substring of a
-given string that is also a palindrome. For example, the longest palindromic substring of
-"bananas" is "anana". The longest palindromic substring is not guaranteed to be unique; for
-example, in the string "abracadabra", there is no palindromic substring with length greater than
-three, but there are two palindromic substrings with length three, namely, "aca" and "ada".
-In some applications it may be necessary to return all maximal palindromic substrings (that is, all
-substrings that are themselves palindromes and cannot be extended to larger palindromic
-substrings) rather than returning only one substring or returning the maximum length of a
-palindromic substring.
-*/
+/* 27. Write a JavaScript function that returns the longest palindrome in a given string. */
 var longestPalindrome = (s) => {
-  
+  let left = 0, right = 0; // left and right idx of longest palindrome
+  // iterate all palindromes with center idx
+  for (let i = 0; i < s.length; i++) {
+    for (let j of [i, i + 1]) {
+      for (l = i, r = j; s[l] && s[l] === s[r]; l--, r++)
+        // found a new palindrome [l -> i, j-> r]
+        // update left, right if new palindrome longer than prev
+        [left, right] = (r - l + 1) > (right - left + 1) ? [l, r] : [left, right];
+    }
+  }
+  return s.substring(left, right + 1);
 }
+console.log(longestPalindrome("babad"));
 
 /* 28. Write a JavaScript program to pass a 'JavaScript function' as parameter. */
 function func1(id, callback) {
