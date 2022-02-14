@@ -204,19 +204,27 @@
 
 
 // // rebuild myReduce ----> 2 args or 1 args
-// Array.prototype.myReduce = function(callback, initacc) {
-//     let acc = initacc;
-//     for (let i =0; i< this.length; i++) {
+// Array.prototype.myReduce = function(...args) {
+//     if (!this.length) return;
+
+//     let acc = this[0];
+//     let index = 1;
+
+//     if (args.length > 1) {
+//         acc = args[1];
+//         index = 0;
+//     }
+
+//     for (let i = index; i< this.length; i++) {
 //         acc = callback(acc, this[i], i, this);
 //     }
 //     return acc;
 // }
 
 // const numbers = [175, 50, 25];
-// console.log('res: ', numbers.reduce(myFunc, 0)); // 1000
+// console.log('res: ', numbers.reduce(myFunc, 0)); 
 
 // function myFunc(total, num) {
-//     console.log(num);
 //     return total - num;
 // }
 
@@ -279,41 +287,41 @@
 // immutable data; mutable data
 
 // // ~~~~~~interview question~~~~~~~~~~~~
-const first = [
-    { userid: 2, name: 'Velen' },
-    { userid: 56, name: 'Illidan' },
-    { userid: 23, name: 'Muradin' },
-    { userid: 12, name: 'Sylvanas' },
-    { userid: 44, name: 'Cenarius' },
-    { userid: 4, name: 'Gul\'Dan' }
-];
-const second = [
-    { userid: 2, role: 'Mage' },
-    { userid: 4, role: 'Worlock' },
-    { userid: 56, role: 'Demon Hunter' },
-    { userid: 66, role: 'Druid' },
-    { userid: 87, role: 'Shaman' },
-    { userid: 12, role: 'Hunter' },
-];
-const third = [
-    { userid: 2 },
-    { userid: 4 },
-    { userid: 56 },
-    { userid: 66 },
-    { userid: 87 },
-    { userid: 12 },
-];
+// const first = [
+//     { userid: 2, name: 'Velen' },
+//     { userid: 56, name: 'Illidan' },
+//     { userid: 23, name: 'Muradin' },
+//     { userid: 12, name: 'Sylvanas' },
+//     { userid: 44, name: 'Cenarius' },
+//     { userid: 4, name: 'Gul\'Dan' }
+// ];
+// const second = [
+//     { userid: 2, role: 'Mage' },
+//     { userid: 4, role: 'Worlock' },
+//     { userid: 56, role: 'Demon Hunter' },
+//     { userid: 66, role: 'Druid' },
+//     { userid: 87, role: 'Shaman' },
+//     { userid: 12, role: 'Hunter' },
+// ];
+// const third = [
+//     { userid: 2 },
+//     { userid: 4 },
+//     { userid: 56 },
+//     { userid: 66 },
+//     { userid: 87 },
+//     { userid: 12 },
+// ];
 
-function solution(fir, sec, thd) {
-    const arr = [...sec, ...fir];
-    const map = {}
-    arr.forEach(ele => {
-        map[ele.userid] = {
-            userid: ele.userid
-        }
-    });
-    return Object.values(map);
-}
+// function solution(fir, sec, thd) {
+//     const arr = [...sec, ...fir];
+//     const map = {}
+//     arr.forEach(ele => {
+//         map[ele.userid] = {
+//             userid: ele.userid
+//         }
+//     });
+//     return Object.values(map);
+// }
 
 // { userid: 2, name: 'Velen'},
 // {  userid: 87, name: Null}
@@ -328,7 +336,7 @@ function solution(fir, sec, thd) {
 //     56: { userid: 56, name: 'Illidan', role: 'Demon Hunter' },
 //     ...
 // }
-console.log(solution(first, second));
+// console.log(solution(first, second));
 
 // [
 //     { userid: 2, name: 'Velen', role: 'Mage' },
@@ -340,3 +348,259 @@ console.log(solution(first, second));
 //     { userid: 66, name: null, role: 'Druid' },
 //     { userid: 87, name: null, role: 'Shaman' },
 // ]
+
+// // destructure;
+
+// let [a, b] = [0, 1];
+// console.log(a, b);
+
+// let obj = { name: 'Jojo', age: 18, company: 'Jump' };
+// console.log(obj.age, obj.name, company);
+
+// const {links} = {
+//     id: 1,
+//     name: 'David Dong',
+//     links: [
+//         { name: 'wechat',       link: 'wechat.com'      },
+//         { name: 'apple',        link: 'apple.com'       },
+//         { name: 'cnn',          link: 'cnn.com'         },
+//         { name: 'fox',          link: 'fox.com'         },
+//         { name: 'hbo',          link: 'hbo.com'         },
+//     ]
+// };
+
+// console.log(links.find(({name}) => name === 'cnn').link);
+
+
+// // object copy; shallow copy and deep copy;
+
+// const obj = {
+//     name: 'Jojo', 
+//     age: 18,
+//     links: [1, 2, 3],
+//     // date: new Date(), // new Data(obj.date)
+//     // foo: function() {
+//     //     console.log('this is foo')
+//     // }
+// };
+// const obj1 = obj;
+// const obj2 = {...obj};
+
+// console.log(obj1.links === obj2.links);
+
+// console.log(obj.links[0]);
+// obj2.links[0] = 321;
+// console.log(obj.links[0]);
+
+// console.log(obj, JSON.stringify(obj));
+
+// const obj3 = JSON.parse(JSON.stringify(obj));
+
+// console.log(obj3);
+
+// console.log(obj, obj3);
+// console.log(obj.links[0]);
+// obj3.links[0] = 321;
+// console.log(obj.links[0]);
+
+// Lodash | _.cloneDeep() Method
+
+// // closure
+
+// // curring
+
+// function foo(a) {
+// // ~~~~~~~~~~~~~~~~~~~
+//     function print() {}
+
+//     let pi = 3.14;
+
+// // ~~~~~~~~~~~~~~~~~~~
+//     return function(b) {
+//         return a + b
+//     }
+// }
+
+// console.log( foo(4)(5)(6) ); // 15
+
+// const obj = (function () {
+//     // let pi = 3.14;
+//     // function print(data) {
+//     //     console.log(data);
+//     // }
+//     // function sum(...args) {
+//     //     return args.reduce((acc, cur) => acc + cur);
+//     // }
+//     return {
+//         print: function (data) {
+//             console.log(data);
+//         },
+//         pi,
+//         sum
+//     };
+// // }());
+// })();
+
+
+// obj.print(obj.sum(1, 2, 1, 51, 123, 3));
+
+// bar.print(bar.pi);
+
+// function foo(num) {
+//     console.log(num);
+// }
+// foo(4); // <-------- 
+
+// // iife
+
+// ~~~~~~~~~~~~~~~~ interview question ~~~~~~~~~~~~~~~~~~~~
+
+// const target = (a, b) => console.log(a + b);
+// const target0 = (a, b, c, d) => console.log(a + b * c - d);
+
+// let fn = limitedFunction(2, target);
+
+// fn(6, 2); // 8
+// fn(2, 6); // 8
+// fn(6, 3); // 9
+// fn(9, 4); // 13
+// fn(5, 1); // over limited!
+// fn(2, 9); // over limited!
+
+// const fn0 = limitedFunction(3, target0);
+
+// fn0(1, 2, 3, 4)
+// fn0(1, 2, 3, 4)
+// fn0(1, 2, 3, 4)
+// fn0(1, 2, 3, 4)
+// fn0(1, 2, 3, 4)
+
+// function limitedFunction (num, callback) {
+    
+//     let counter = num;
+
+//     return function(...args) { // rest parameter 
+
+//         if (counter > 0) {
+//             counter--;
+//             callback(...args); // spread operator
+//         } else {
+//             console.log('over limited!')
+//         }
+//     }
+// }
+
+// ~~~~~~~~~~~~~~~~ interview question ~~~~~~~~~~~~~~~~~~~~
+
+// const callback1 = (a) => a + 2; // 7
+// const callback2 = (b) => b * 2; // 14
+// const callback3 = (c) => c - 2; // 12
+
+// console.log( runAll(callback1, callback2, callback3)(5) ); // 12
+
+// function runAll(...args) {
+//     return function(num) {
+//         let callbacks = [...args];
+//         let res = num;
+//         // return callbacks.reduce((acc, cur) => cur(acc), num);
+//         for (let ele of callbacks) {
+//             res = ele(res);
+//         }
+//         return res;
+//     }
+// }
+
+// this in js;
+
+// (function foo() {
+//     console.log(window);
+// })();
+
+// const obj = {
+//     name: 'Dio',
+//     age: 200,
+    
+//     foo() {
+//         console.log('foo: ', this); // this ====> obj
+
+//         function baz() {
+//             console.log('baz: ', this);
+//         }
+
+//         const bar = () => {
+//             console.log('baz: ', this); // this ====> obj
+//         }
+//         bar();
+//     },
+
+//     person: {
+//         name: 'Jojo',
+//         age: 18,
+        
+//         bar() {
+//             console.log(this);
+//         }
+//     }
+// };
+
+
+// obj.foo();
+
+// function foo() {
+//     console.log('foo: ', this);
+
+//     function baz() {
+//         console.log('baz: ', this);
+//     }
+
+//     baz();
+// }
+// foo();
+
+// class Person {
+//     name = 'Jojo';
+//     age = 18;
+
+//     bar() {
+//         console.log(this.name);
+//     }
+// }
+// const p = new Person();
+
+// p.bar();
+
+// // call, apply, bind
+
+// const obj = {
+//     pi: 3.14159265,
+//     getPi() {
+//         return this.pi;
+//     }
+// }
+// // console.log(obj.getPi());
+// function getArea(num1, num2) { // 100
+//     console.log(this.getPi(), num1, num2)
+// }
+
+// const test = {
+//     getPi() {
+//         console.log('from test');
+//     }
+// }
+
+// // const newgetArea = getArea.bind(obj);
+// const newget1 = getArea.bind(test);
+// // newgetArea(20, 21);
+// newget1(20, 21);
+
+// getArea.call(obj, 20, 21); // obj + args.length
+// getArea.apply(obj, [20, 21]); // obj + [args.length]
+
+// arrow function;
+// (function foo() {
+//     console.log(arguments);
+// })();
+// const bar = () => {
+//     console.log(arguments);
+// };
+// bar();
