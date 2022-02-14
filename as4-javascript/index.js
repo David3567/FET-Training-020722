@@ -628,4 +628,23 @@ functionName();
 /*
  
   */
-  
+console.log("======================");
+console.log("rebuild myReduce ----> 2 args or 1 args");
+// // rebuild myReduce ----> 2 args or 1 args
+Array.prototype.myReduce = function (callback, initacc){
+    let acc = (typeof initacc !== 'undefined') ? initacc : this[0];
+    let i =   (typeof initacc !== 'undefined') ? 0 :  1;
+    for (; i< this.length; i++) {
+        acc = callback(acc, this[i], i, this);
+    }
+    return acc;
+}
+const numbers = [175, 50, 25];
+console.log('res: with reduce 2 args', numbers.reduce(myFunc,100)); 
+console.log('res: with reduce 1 args', numbers.reduce(myFunc)); 
+console.log('res: with myreduce 2 args', numbers.myReduce(myFunc,100)); 
+console.log('res: with myreduce 1 args', numbers.myReduce(myFunc)); 
+
+function myFunc(total, num) {
+    return total - num;
+}
