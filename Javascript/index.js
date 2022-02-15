@@ -202,7 +202,6 @@
 // );
 // console.log(arr);
 
-
 // // rebuild myReduce ----> 2 args or 1 args
 // Array.prototype.myReduce = function(...args) {
 //     if (!this.length) return;
@@ -222,7 +221,7 @@
 // }
 
 // const numbers = [175, 50, 25];
-// console.log('res: ', numbers.reduce(myFunc, 0)); 
+// console.log('res: ', numbers.reduce(myFunc, 0));
 
 // function myFunc(total, num) {
 //     return total - num;
@@ -268,7 +267,6 @@
 // { sam: 18, jane: 10, john: 20 }
 
 // // // {sam: 18}
-
 
 // spread operator vs. rest parameter
 
@@ -371,11 +369,10 @@
 
 // console.log(links.find(({name}) => name === 'cnn').link);
 
-
 // // object copy; shallow copy and deep copy;
 
 // const obj = {
-//     name: 'Jojo', 
+//     name: 'Jojo',
 //     age: 18,
 //     links: [1, 2, 3],
 //     // date: new Date(), // new Data(obj.date)
@@ -441,7 +438,6 @@
 // // }());
 // })();
 
-
 // obj.print(obj.sum(1, 2, 1, 51, 123, 3));
 
 // bar.print(bar.pi);
@@ -449,7 +445,7 @@
 // function foo(num) {
 //     console.log(num);
 // }
-// foo(4); // <-------- 
+// foo(4); // <--------
 
 // // iife
 
@@ -476,10 +472,10 @@
 // fn0(1, 2, 3, 4)
 
 // function limitedFunction (num, callback) {
-    
+
 //     let counter = num;
 
-//     return function(...args) { // rest parameter 
+//     return function(...args) { // rest parameter
 
 //         if (counter > 0) {
 //             counter--;
@@ -519,7 +515,7 @@
 // const obj = {
 //     name: 'Dio',
 //     age: 200,
-    
+
 //     foo() {
 //         console.log('foo: ', this); // this ====> obj
 
@@ -536,13 +532,12 @@
 //     person: {
 //         name: 'Jojo',
 //         age: 18,
-        
+
 //         bar() {
 //             console.log(this);
 //         }
 //     }
 // };
-
 
 // obj.foo();
 
@@ -604,3 +599,158 @@
 //     console.log(arguments);
 // };
 // bar();
+
+// // event loop
+
+// for (var i = 0; i < 5; i++) {
+//     setTimeout(
+//         () => console.log(i),
+//         (5 - i) * 1000
+//     );
+// }
+
+// call stack: [    ]
+
+// async api, web api:
+/**
+ * () => console.log(0), 5
+ * () => console.log(1), 4
+ * () => console.log(2), 3
+ * () => console.log(3), 2
+ * () => console.log(4), 1
+ */
+
+// task queue:
+/** [
+ * () => console.log(4),
+ * () => console.log(3),
+ * () => console.log(2),
+ * () => console.log(1),
+ * () => console.log(0),
+ * ]
+ */
+
+// // callback function; callback hell
+// const foo = () => console.log('foo');
+
+// const randomNumber = () => Math.floor((Math.random() * 6));
+
+// const callFnInRandomTime = (callback, callback) => {
+//     const timer = randomNumber();
+//     console.log(`${timer}s`);
+
+//     setTimeout(callback, timer * 1000);
+// }
+
+// callFnInRandomTime(() => {
+//     callFnInRandomTime(() => {
+//         callFnInRandomTime(() => {
+//             callFnInRandomTime(() => {
+//                 callFnInRandomTime(() => {
+//                     callFnInRandomTime(() => {
+//                         callFnInRandomTime(() => {
+//                             callFnInRandomTime(foo);
+//                         });
+//                     });
+//                 });
+//             });
+//         });
+//     });
+// });
+
+// // XHR
+
+const getTodo = (id) => {
+    const baseUrl = "https://jsonplaceholder.typicode.com/todos/";
+
+    return new Promise((resolve, reject) => {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                // Typical action to be performed when the document is ready:
+                resolve(JSON.parse(xhttp.response));
+            }
+        };
+        xhttp.open("GET", baseUrl + id);
+        xhttp.send();
+    });
+};
+const print = (data) => console.log(data);
+
+getTodo((data) => {
+    print(data);
+    getTodo((data) => {
+        print(data);
+        getTodo((data) => {
+            print(data);
+        }, 78);
+    }, 12);
+}, 5);
+
+// async, await
+(async () => {
+    try {
+        const todo5 = await getTodo(5);
+        console.log(todo5);
+
+        const todo12 = await getTodo(12);
+        console.log(todo12);
+
+        const todo78 = await getTodo(78);
+        console.log(todo78);
+    } catch (error) {
+        console.log(error);
+    }
+})();
+
+// getTodo(5)
+//     .then((data) => {
+//         print(data);
+//         return getTodo(12);
+//     })
+//     .then((data) => {
+//         print(data);
+//         return getTodo(78);
+//     })
+//     .then(console.log);
+
+// // 5, 12, 78, 1, 123, 1, 31, 123,
+// getTodo(5, print);
+// getTodo(12, print);
+// getTodo(78, print);
+
+// // Promise
+
+// console.log(1111);
+
+// new Promise((resolve, reject) => {
+//     console.log(2222);
+
+//     resolve(3333)
+// }).then((str) => {
+//     console.log(str);
+//     return '4444';
+// }).then((name) => {
+//     console.log(name);
+// }).catch(err => console.log('err: ', err));
+
+// console.log(5555);
+
+// task queue: [3333, 4444]
+
+// // MyPromise
+
+// class MyPromise {
+
+//     constructor(executor) {
+//         executor();
+//     }
+
+//     then(thenFn) {
+
+//         return this;
+//     }
+
+//     catch() {}
+// }
+// // MyFetch
