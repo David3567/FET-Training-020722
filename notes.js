@@ -10,15 +10,46 @@ new Promise((resolve, reject) => {
 
 //resolve will handle some data and then 'transfer' it to then
 
-class MyPromise {
-	constructor (exectuor) {
-  	executor();
-  }
+// class MyPromise {
+// 	constructor (exectuor) {
+//   	executor();
+//   }
   
-  then (thenFn)
+//   then (thenFn)
+//   {
+//   	return this;
+//   }
+  
+//   catch(){}
+// }
+
+const getTodo = id => 
+{
+	const baseURL = "https://jsonplaceholder.typicode.com/todos/"; 
+  
+  return new Promise ((resolve, reject) => 
   {
-  	return this;
-  }
-  
-  catch(){}
-}
+  	const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+    	if (this.readyState == 4 && this.status == 200) {
+      	resolve (JSON.parse (xhttp.response));
+      }
+    };
+    xhttp.open("GET", baseURL + id);
+    xhttp.send();
+  });
+};
+
+const print = data => console.log (data);
+
+getTodo (5)
+	.then ((data) => {
+  	print (data);
+    return getTodo(12);
+  }).then (data => {
+  	print (data);
+    return getTodo(78);
+  }).then (data =>
+  {
+  	print (data);
+  }).then (console.log)
