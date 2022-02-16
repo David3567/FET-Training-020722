@@ -741,81 +741,222 @@
 
 // // MyPromise
 
-class MyPromise {
-    thenCallBackqueue = [];
-    catchCallBackqueue = [];
-    currentData = undefined;
+// class MyPromise {
+//     thenCallBackqueue = [];
+//     catchCallBackqueue = [];
+//     currentData = undefined;
 
-    constructor(executor) {
-        try {
-            executor(this.resolve.bind(this), this.reject);
-        } catch (error) {
-            this.reject(error);
-        }
-    }
+//     constructor(executor) {
+//         try {
+//             executor(this.resolve.bind(this), this.reject);
+//         } catch (error) {
+//             this.reject(error);
+//         }
+//     }
 
-    resolve(resData) {
-        try {
-            setTimeout(() => {
-                this.currentData = resData;
-                while (this.thenCallBackqueue.length) {
-                    const cb = this.thenCallBackqueue.shift();
+//     resolve(resData) {
+//         try {
+//             setTimeout(() => {
+//                 this.currentData = resData;
+//                 while (this.thenCallBackqueue.length) {
+//                     const cb = this.thenCallBackqueue.shift();
 
-                    if (this.currentData instanceof MyPromise) {
-                        this.currentData.then((data) => {
-                            this.currentData = cb(data);
-                        });
-                    } else {
-                        this.currentData = cb(this.currentData);
-                    }
-                }
-            }, 0); 
-        } catch (error) {
-            this.catch(error);
-        }
-    }
-    reject = (rejData) => {
-        setTimeout(() => {
-            const cb = this.catchCallBackqueue.shift();
-            cb(rejData);
-        }, 0);
-    };
+//                     if (this.currentData instanceof MyPromise) {
+//                         this.currentData.then((data) => {
+//                             this.currentData = cb(data);
+//                         });
+//                     } else {
+//                         this.currentData = cb(this.currentData);
+//                     }
+//                 }
+//             }, 0);
+//         } catch (error) {
+//             this.catch(error);
+//         }
+//     }
+//     reject = (rejData) => {
+//         setTimeout(() => {
+//             const cb = this.catchCallBackqueue.shift();
+//             cb(rejData);
+//         }, 0);
+//     };
 
-    then(thenFn) {
-        this.thenCallBackqueue.push(thenFn);
-        return this;
-    }
-    catch(catchFn) {
-        this.catchCallBackqueue.push(catchFn);
-        return this;
-    }
-}
-// // MyFetch
+//     then(thenFn) {
+//         this.thenCallBackqueue.push(thenFn);
+//         return this;
+//     }
+//     catch(catchFn) {
+//         this.catchCallBackqueue.push(catchFn);
+//         return this;
+//     }
+
+//     static resolve(resData) {
+//         return new MyPromise((res, _) => {
+//             res(resData);
+//         });
+//     }
+//     static reject(rejData) {
+//         return new MyPromise((_, rej) => {
+//             rej(rejData);
+//         });
+//     }
+//     static all(promiseArr) {
+//         const outputArr = new Array(promiseArr.length);
+//         let counter = 0;
+
+//         return new MyPromise((res, rej) => {
+//             promiseArr.forEach((promise, i) => {
+//                 if (promise instanceof MyPromise) {
+//                     promise.then(data => {
+//                         outputArr[i] = data;
+//                         counter++;
+//                         if (counter === promiseArr.length) {
+//                             res(outputArr);
+//                         }
+//                     });
+//                 } else {
+//                     outputArr[i] = promise;
+//                     counter++;
+//                     if (counter === promiseArr.length) {
+//                         res(outputArr);
+//                     }
+//                 }
+//             });
+//         });
+//     }
+// }
+
+// const promise1 = MyPromise.resolve(3);
+// const promise2 = 42;
+// const promise3 = new MyPromise((resolve, reject) => {
+//   setTimeout(resolve, 100, 'foo'); // <-----
+// });
+
+// MyPromise.all([promise1, promise2, promise3]).then((values) => {
+//   console.log(values);
+// });
+// expected output: Array [3, 42, "foo"]
 
 // console.log(1);
 
-const randomNumber = () => Math.floor(Math.random() * 6);
+// const randomNumber = () => Math.floor(Math.random() * 6);
 
-new MyPromise((resolve, reject) => {
-    // const timer = randomNumber();
-    // console.log(timer);
+// new MyPromise((resolve, reject) => {
+//     // const timer = randomNumber();
+//     // console.log(timer);
 
-    // if (timer > 2) {
-    //     reject("this is from reject" + timer);
-    // } else resolve("this is from resolve" + timer);
-    console.log(a);
-})
-    // .then((data) => {
-    //     console.log(data);
-    //     return new Promise((res, rej) => {
-    //         res(4);
-    //     });
-    // })
-    .then((data) => {
-        console.log(data);
-    })
-    .catch(console.log);
+//     // if (timer > 2) {
+//     //     reject("this is from reject" + timer);
+//     // } else resolve("this is from resolve" + timer);
+//     console.log(a);
+// })
+//     // .then((data) => {
+//     //     console.log(data);
+//     //     return new Promise((res, rej) => {
+//     //         res(4);
+//     //     });
+//     // })
+//     .then((data) => {
+//         console.log(data);
+//     })
+//     .catch(console.log);
 
 // console.log(5); // 12534
 
 // task queue: [resolve(5)]；
+
+// // MyFetch
+
+// function myFetch(url, options) {
+//     let method = options && options.method ? options.method : "GET";
+
+//     return new Promise((resolve, reject) => {
+//         const xhttp = new XMLHttpRequest();
+//         xhttp.open(method, url);
+
+//         if (options && options.headers) {
+//             Object.keys(options.headers).forEach((key) => {
+//                 xhttp.setRequestHeader(key, options.headers[key]);
+//             });
+//         }
+
+//         xhttp.onreadystatechange = function () {
+//             if (
+//                 this.readyState == 4 &&
+//                 this.status >= 200 &&
+//                 this.status < 300
+//             ) {
+//                 // Typical action to be performed when the document is ready:
+//                 const responseData = {
+//                     json: function () {
+//                         return JSON.parse(xhttp.response);
+//                     },
+//                 };
+//                 resolve(responseData);
+//             }
+//         };
+//         options && options.body ? xhttp.send(options.body) : xhttp.send();
+//     });
+// }
+
+// myFetch("https://jsonplaceholder.typicode.com/users", {
+//     method: "POST",
+//     body: JSON.stringify({
+//         title: "foo",
+//         body: "bar",
+//         userId: 1,
+//     }),
+//     headers: {
+//         "Content-type": "application/json; charset=UTF-8",
+//     },
+// })
+//     .then((response) => response.json())
+//     .then((json) => console.log(json));
+
+// myFetch("https://jsonplaceholder.typicode.com/posts/1", {
+//     method: "PUT",
+//     body: JSON.stringify({
+//         id: 1,
+//         title: "foo",
+//         body: "bar",
+//         userId: 1,
+//     }),
+//     headers: {
+//         "Content-type": "application/json; charset=UTF-8",
+//     },
+// })
+//     .then((response) => response.json())
+//     .then((json) => console.log(json));
+
+// myFetch('https://jsonplaceholder.typicode.com/users')
+//   .then((response) => response.json())
+//   .then((json) => console.log(json));
+
+// ~~~~~~~~~~~~~~~~~~~ interview question ~~~~~~~~~~~~~~~~~~~
+// For example:
+// If,
+const add = (a, b) => a + b;
+const multiplyByTwo = (c) => c * 2;
+// Then,
+
+// example 1 // await promisifyFunction(add)(1, 1) should return 2
+
+// example 2 // await promisifyFunction(multiplyByTwo)(3).then(val => val + 1) should return 7
+
+(async () => {
+    console.log(await promisifyFunction(add)(1, 1));
+    console.log(await promisifyFunction(multiplyByTwo)(3).then(val => val + 1));
+})();
+
+promisifyFunction(add)(1, 1).then(console.log);
+promisifyFunction(multiplyByTwo)(3).then(val => val + 1).then(console.log)
+
+function promisifyFunction(callback) {
+
+    return function(...args) {
+        
+        return new Promise((res, rej) => {
+            res(callback(...args));
+        });
+    }
+}
