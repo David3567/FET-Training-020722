@@ -5,3 +5,6 @@ function reverse_num(n){
 }
 
 console.log(reverse_num(32441));
+console.log(
+"test"
+);
