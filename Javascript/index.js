@@ -492,10 +492,10 @@
 // const callback2 = (b) => b * 2; // 14
 // const callback3 = (c) => c - 2; // 12
 
-// console.log( runAll(callback1, callback2, callback3)(5) ); // 12
+// console.log( runAll(5)(callback1, callback2, callback3) ); // 12
 
-// function runAll(...args) {
-//     return function(num) {
+// function runAll(num) {
+//     return function(...args) {
 //         let callbacks = [...args];
 //         let res = num;
 //         // return callbacks.reduce((acc, cur) => cur(acc), num);
@@ -516,16 +516,17 @@
 //     name: 'Dio',
 //     age: 200,
 
-//     foo() {
+//     constuctor() {
 //         console.log('foo: ', this); // this ====> obj
 
 //         function baz() {
 //             console.log('baz: ', this);
 //         }
+//         resolve();
 
-//         const bar = () => {
-//             console.log('baz: ', this); // this ====> obj
-//         }
+//         // const bar = () => {
+//         //     console.log('baz: ', this); // this ====> obj
+//         // }
 //         bar();
 //     },
 
@@ -660,48 +661,48 @@
 
 // // XHR
 
-const getTodo = (id) => {
-    const baseUrl = "https://jsonplaceholder.typicode.com/todos/";
+// const getTodo = (id) => {
+//     const baseUrl = "https://jsonplaceholder.typicode.com/todos/";
 
-    return new Promise((resolve, reject) => {
-        const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                // Typical action to be performed when the document is ready:
-                resolve(JSON.parse(xhttp.response));
-            }
-        };
-        xhttp.open("GET", baseUrl + id);
-        xhttp.send();
-    });
-};
-const print = (data) => console.log(data);
+//     return new Promise((resolve, reject) => {
+//         const xhttp = new XMLHttpRequest();
+//         xhttp.onreadystatechange = function () {
+//             if (this.readyState == 4 && this.status == 200) {
+//                 // Typical action to be performed when the document is ready:
+//                 resolve(JSON.parse(xhttp.response));
+//             }
+//         };
+//         xhttp.open("GET", baseUrl + id);
+//         xhttp.send();
+//     });
+// };
+// const print = (data) => console.log(data);
 
-getTodo((data) => {
-    print(data);
-    getTodo((data) => {
-        print(data);
-        getTodo((data) => {
-            print(data);
-        }, 78);
-    }, 12);
-}, 5);
+// getTodo((data) => {
+//     print(data);
+//     getTodo((data) => {
+//         print(data);
+//         getTodo((data) => {
+//             print(data);
+//         }, 78);
+//     }, 12);
+// }, 5);
 
-// async, await
-(async () => {
-    try {
-        const todo5 = await getTodo(5);
-        console.log(todo5);
+// // async, await
+// (async () => {
+//     try {
+//         const todo5 = await getTodo(5);
+//         console.log(todo5);
 
-        const todo12 = await getTodo(12);
-        console.log(todo12);
+//         const todo12 = await getTodo(12);
+//         console.log(todo12);
 
-        const todo78 = await getTodo(78);
-        console.log(todo78);
-    } catch (error) {
-        console.log(error);
-    }
-})();
+//         const todo78 = await getTodo(78);
+//         console.log(todo78);
+//     } catch (error) {
+//         console.log(error);
+//     }
+// })();
 
 // getTodo(5)
 //     .then((data) => {
@@ -740,17 +741,81 @@ getTodo((data) => {
 
 // // MyPromise
 
-// class MyPromise {
+class MyPromise {
+    thenCallBackqueue = [];
+    catchCallBackqueue = [];
+    currentData = undefined;
 
-//     constructor(executor) {
-//         executor();
-//     }
+    constructor(executor) {
+        try {
+            executor(this.resolve.bind(this), this.reject);
+        } catch (error) {
+            this.reject(error);
+        }
+    }
 
-//     then(thenFn) {
+    resolve(resData) {
+        try {
+            setTimeout(() => {
+                this.currentData = resData;
+                while (this.thenCallBackqueue.length) {
+                    const cb = this.thenCallBackqueue.shift();
 
-//         return this;
-//     }
+                    if (this.currentData instanceof MyPromise) {
+                        this.currentData.then((data) => {
+                            this.currentData = cb(data);
+                        });
+                    } else {
+                        this.currentData = cb(this.currentData);
+                    }
+                }
+            }, 0); 
+        } catch (error) {
+            this.catch(error);
+        }
+    }
+    reject = (rejData) => {
+        setTimeout(() => {
+            const cb = this.catchCallBackqueue.shift();
+            cb(rejData);
+        }, 0);
+    };
 
-//     catch() {}
-// }
+    then(thenFn) {
+        this.thenCallBackqueue.push(thenFn);
+        return this;
+    }
+    catch(catchFn) {
+        this.catchCallBackqueue.push(catchFn);
+        return this;
+    }
+}
 // // MyFetch
+
+// console.log(1);
+
+const randomNumber = () => Math.floor(Math.random() * 6);
+
+new MyPromise((resolve, reject) => {
+    // const timer = randomNumber();
+    // console.log(timer);
+
+    // if (timer > 2) {
+    //     reject("this is from reject" + timer);
+    // } else resolve("this is from resolve" + timer);
+    console.log(a);
+})
+    // .then((data) => {
+    //     console.log(data);
+    //     return new Promise((res, rej) => {
+    //         res(4);
+    //     });
+    // })
+    .then((data) => {
+        console.log(data);
+    })
+    .catch(console.log);
+
+// console.log(5); // 12534
+
+// task queue: [resolve(5)]；
