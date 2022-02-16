@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    div {
+        width: 500px;
+        position: relative;
+        left: 20%;
+        top: 100px;
+        transform: translateX(-20%);
+    }
+    
+    select {
+        width: 200px;
+        height: 50px;
+        font-size: 1.5em;
+        text-align: center;
+        margin: 10px;
+        border-radius: 10px;
+    }
+</style>
+<script asyn defer>
+    const state = {
+        a: "apple",
+        b: "banana",
+        c: "city",
+        d: "dom",
+        e: "end",
+        f: "forEach"
+    };
+
+    for (let key in state) {
+        document.getElementById('short').innerHTML += `<option value="${key}">${key}</option>`;
+        document.getElementById('long').innerHTML += `<option value="${state[key]}">${state[key]}</option>`;
+    }
+
+    function shortOnChange() {
+        document.getElementById('long').selectedIndex = document.getElementById('short').selectedIndex;
+    }
+
+    function longOnChange() {
+        document.getElementById('short').selectedIndex = document.getElementById('long').selectedIndex;
+    }
+</script>
+
+<body>
+    <div>
+        <select name="short" id="short" onchange="shortOnChange()">
+            
+        </select>
+        <select name="long" id="long" onchange="longOnChange()">
+
+        </select>
+    </div>
+</body>
+
+</html>
