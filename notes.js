@@ -53,3 +53,25 @@ getTodo (5)
   {
   	print (data);
   }).then (console.log)
+
+function myFetch(url) {
+  return new Promise((resolve, reject) => {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        const responseData = {
+          json: function() {
+            resolve(JSON.parse(xhttp.response))
+
+          }
+        }
+
+        resolve(responseData);
+      }
+    };
+    xhttp.open("GET", url);
+    xhttp.send();
+  })
+}
+
+myFetch('https://jsonplaceholder.typicode.com/users').then((response) => response.json).then(json => console.log(json));
