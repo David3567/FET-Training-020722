@@ -1,6 +1,7 @@
 // ~~~~~~~~~~~~Api~~~~~~~~~~~~~~
 const Api = (() => {
-    const baseUrl = "https://jsonplaceholder.typicode.com";
+    // const baseUrl = "https://jsonplaceholder.typicode.com";
+    const baseUrl = "http://localhost:3000";
     const todo = "todos";
 
     const getTodos = () =>
@@ -11,11 +12,19 @@ const Api = (() => {
             method: "DELETE",
         });
 
-    const getTodo = (id) => {};
+    const addTodo = (newtodo) =>
+        fetch([baseUrl, todo].join("/"), {
+            method: "POST",
+            body: JSON.stringify(newtodo),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            },
+        }).then((response) => response.json());
 
     return {
         getTodos,
         deleteTodo,
+        addTodo,
     };
 })();
 // ~~~~~~~~~~~~View~~~~~~~~~~~~~~
@@ -23,6 +32,7 @@ const View = (() => {
     const domStr = {
         todolist: ".todolist-container",
         deletebtn: ".delete-btn",
+        todoinput: ".todolist-input",
     };
     const render = (ele, tmp) => {
         ele.innerHTML = tmp;
@@ -49,6 +59,14 @@ const View = (() => {
 
 // ~~~~~~~~~~~~Model~~~~~~~~~~~~~~
 const Model = ((api, view) => {
+    class Todo {
+        constructor(title) {
+            this.userId = 2;
+            this.title = title;
+            this.completed = false;
+        }
+    }
+
     class State {
         #todolist = [];
 
@@ -66,11 +84,14 @@ const Model = ((api, view) => {
 
     const getTodos = api.getTodos;
     const deleteTodo = api.deleteTodo;
+    const addTodo = api.addTodo;
 
     return {
         getTodos,
         deleteTodo,
+        addTodo,
         State,
+        Todo,
     };
 })(Api, View);
 
@@ -78,6 +99,8 @@ const Model = ((api, view) => {
 const appController = ((model, view) => {
     const state = new model.State();
     const todolist = document.querySelector(view.domStr.todolist);
+
+    let id = 0;
 
     const deleteTodo = () => {
         todolist.addEventListener("click", (event) => {
@@ -88,7 +111,19 @@ const appController = ((model, view) => {
         });
     };
 
-    const addTodo = () => {};
+    const addTodo = () => {
+        // const todo = new model.Todo();
+        const input = document.querySelector(view.domStr.todoinput);
+        input.addEventListener("keyup", (event) => {
+            if (event.key === "Enter" && event.target.value !== "") {
+                const todo = new model.Todo(event.target.value);
+                model.addTodo(todo).then((todo) => {
+                    state.todolist = [todo, ...state.todolist];
+                });
+                event.target.value = "";
+            }
+        });
+    };
 
     const init = () => {
         model.getTodos().then((todos) => {
@@ -98,6 +133,7 @@ const appController = ((model, view) => {
     const bootstrap = () => {
         init();
         deleteTodo();
+        addTodo();
     };
 
     return { bootstrap };
