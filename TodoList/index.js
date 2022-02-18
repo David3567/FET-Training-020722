@@ -107,7 +107,7 @@ const appController = ((model, view) => {
             state.todolist = state.todolist.filter(
                 (todo) => +todo.id !== +event.target.id
             );
-            // deleteTodo(event.target.id);
+            deleteTodo(event.target.id);
         });
     };
 
