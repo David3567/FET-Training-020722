@@ -7,10 +7,12 @@ const Api = (() => {
     const getTodos = () =>
         fetch([baseUrl, todo].join("/")).then((response) => response.json());
 
-    const deleteTodo = (id) =>
+    const deleteTodo = (id) => {
+        console.log(id);
         fetch([baseUrl, todo, id].join("/"), {
             method: "DELETE",
         });
+    }
 
     const addTodo = (newtodo) =>
         fetch([baseUrl, todo].join("/"), {
@@ -107,7 +109,8 @@ const appController = ((model, view) => {
             state.todolist = state.todolist.filter(
                 (todo) => +todo.id !== +event.target.id
             );
-            deleteTodo(event.target.id);
+
+            model.deleteTodo(event.target.id);
         });
     };
 
