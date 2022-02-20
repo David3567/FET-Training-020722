@@ -69,8 +69,8 @@ const Model = ((api, view) => {
         }
     }
 
-    class State {#
-        todolist = [];
+    class State {
+        #todolist = [];
 
         get todolist() {
             return this.#todolist;
@@ -139,7 +139,9 @@ const appController = ((model, view) => {
         addTodo();
     };
 
-    return { bootstrap };
+    return {
+        bootstrap
+    };
 })(Model, View);
 
 appController.bootstrap();
