@@ -36,6 +36,7 @@ input {
 
 input:focus {
     border: none;
+    outline-width:  0px;
     box-shadow: 0 0 5px 5px lightblue;
 }
 
