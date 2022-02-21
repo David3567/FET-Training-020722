@@ -1,0 +1,67 @@
+:root {
+    --height-movie-margin: 60px;
+    --height-movieholder: 350px;
+
+    --width-movieholder: 700px;
+
+    --color-green: rgb(37, 97, 29);
+}
+
+html,
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+
+.container {
+    background-color: rgb(0, 0, 0);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.movie-holder {
+    height: var(--height-movieholder);
+    width: var(--width-movieholder);
+    background: linear-gradient(to right, rgb(32, 32, 32), var(--color-green));
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.movie-holder div {
+    
+    height: calc(100% - var(--height-movie-margin));
+    width: 160px;
+    display: flex;
+    flex-direction: column;
+    margin: 5px; 
+}
+
+.move-left, .move-right{
+    margin: 5px;
+    background-color: rgb(255, 255, 255);
+    border-width: 0px;
+    border-radius: 20px;
+    height: 30px;
+    width: 30px;
+}
+
+.move-left:hover, .move-right:hover{
+    background-color: rgb(189, 191, 194);
+}
+
+p {
+    color: white;
+    font-size: x-small;
+}
