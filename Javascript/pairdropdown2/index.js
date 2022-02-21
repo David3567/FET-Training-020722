@@ -12,7 +12,7 @@ const View = (() => {
         domId,
         render
     };
-    
+
 })();
 
 const Model = ((view) => {
