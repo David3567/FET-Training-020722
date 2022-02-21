@@ -77,7 +77,6 @@ const Model = ((Api, View) => {
 
 const appController = ((Model, View) => {
     const state = new Model.State();
-    const movie = document.querySelector(View.domStr.movie);
     const leftbn = document.querySelector(View.domStr.leftbn);
     const rightbn = document.querySelector(View.domStr.rightbn);
 
@@ -124,8 +123,9 @@ const appController = ((Model, View) => {
     const init = () => {
         Model.getMovies().then((movies) => {
             state.movielist = movies;
-            View.show(1, 4);
+            View.show(focus, viewnum);
         });
+        
     };
 
     const bootstrap = () => {
