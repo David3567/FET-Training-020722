@@ -21,7 +21,7 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Syne Tactile", cursive;
+    font-family: sans-serif;
 }
 
 .header {
@@ -68,6 +68,7 @@ ul li {
     border: none;
     outline: none;
 }
+
 .todolist-header {
     text-align: center;
     font-size: 1.7rem;
@@ -82,6 +83,7 @@ ul li {
     justify-content: space-between;
     align-items: center;
 }
+
 ul li span {
     height: 100%;
     line-height: var(--height-todolist-header);
@@ -94,10 +96,13 @@ ul li button {
     border: none;
     font-size: 1.5rem;
     color: var(--color-red-button);
+    cursor: pointer;
 }
+
 ul li button:hover {
     font-size: 1.7rem;
 }
+
 ul li button:active {
     font-size: 1.3rem;
 }

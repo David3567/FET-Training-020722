@@ -1,7 +1,7 @@
 // ~~~~~~~~~~~~Api~~~~~~~~~~~~~~
 const Api = (() => {
-    // const baseUrl = "https://jsonplaceholder.typicode.com";
-    const baseUrl = "http://localhost:3000";
+    const baseUrl = "https://jsonplaceholder.typicode.com";
+    // const baseUrl = "http://localhost:3000";
     const todo = "todos";
 
     const getTodos = () =>
@@ -133,6 +133,7 @@ const appController = ((model, view) => {
             state.todolist = todos;
         });
     };
+    
     const bootstrap = () => {
         init();
         deleteTodo();
