@@ -14,7 +14,8 @@
     display: flex;
     justify-content: space-between;
     height: 350px;
-    width: 45%;
+    width: 50%;
+
 }
 
 .movie-container {
@@ -32,14 +33,23 @@
 }
 
 .move-left{
-    display: none;;
+    display: none;
     position:fixed;
     top: 50%;
-    left: 10%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+    
 }
 
 .move-right{
     position:fixed;
     top: 50%;
-    right: 10%;
+    right: 25%;
+    transform: translate(50%, -50%);
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
 }
