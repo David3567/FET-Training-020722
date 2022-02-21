@@ -1,84 +1,59 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+* { 
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 10.5;
+    
 }
-html,
-body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-.header{
-    font-size: 2em;
-    position: fixed;
-    height: 3em;
-    width: 100%;
-    color: white;
-    padding-left: 10px;
-    text-align: center;
-    line-height: 3em;
+
+.movie-holder {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    top: 20%;
+    left: 30%;
+    height: 400px;
+    width: 950px;
+    /* background-color: green; */
     background: linear-gradient(to right, burlywood, brown);
-    text-transform: capitalize;
-    letter-spacing: 2px;
-}
-
-.content{
-    padding-top: 6em;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(207, 207, 150);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.todolist {
-    height: 300px;
-    width: 400px;
-    background-color: burlywood;
-    border-radius: 5px;
-}
-
-.todolist-header, .todolist-input,
-  ul li {
-    text-transform: capitalize;
-    font-size: 1rem;
-    letter-spacing: 2px;
-    width: 100%;
-    height: 30px;
-    line-height: 30px;
-    border: none;
-    outline: none;
-    padding: 0 10px;
-    list-style: none;
-}
-
-.todolist-header {
-    font-size: 1.5rem;
-    text-align: center;
-}
-
-ul {
-    height: calc(300px -  60px);
-    overflow: auto;
-} 
-ul li {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.7em;
-}
-ul li:hover {
-    background-color: brown;
-}
-
-ul li span  {
-    width: 90%;
+    /* margin: 2%; */
     overflow: hidden;
 }
 
-ul li button:hover {
-    color: red;
+.move-left {
+    position: absolute;
+    top: 49%;
+    left: 0%;
+    size: 1.5em;
+    
 }
+
+.move-right {
+    position: absolute;
+    top: 49%;
+    left: 96.6%;
+    size: 1.5em;
+}
+.todolist-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.movie-card {
+
+    height: 300px;
+    width: 150px;
+    padding: 3%;
+}
+
+.movie-card span {
+    overflow: auto;
+}
+
+.movie-card img {
+    margin-left: -100%;
+    height: 150px;
+    padding-left: 150px;
+}
+
+
+
+
