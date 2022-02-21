@@ -7,14 +7,31 @@ const Api = (() => {
         fetch([baseUrl, todo].join('/'))
         .then(response => response.json())
 
-    return { getTodos }
+    const deleteTodo = (id) => {
+        fetch([baseUrl, todo, id].join('/'), {
+            method: "DELETE",
+        });
+    }
+    const addTodo = (newtodo) =>
+        fetch([baseUrl, todo].join("/"), {
+            method: "POST",
+            body: JSON.stringify(newtodo),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            }
+        }).then((response) => response.json())
+
+    return {
+        getTodos,
+        deleteTodo,
+        addTodo
+    }
 })();
 
 // ~~~~~~~~~~~~~~ View ~~~~~~~~~~~~~~
 const View = (() => {
     const domStr = {
         todolist: ".todolist-container",
-        deletebtn: ".delete-btn",
         todoinput: ".todolist-input"
     }
 
@@ -60,30 +77,65 @@ const Model = ((api, view) => {
         }
     }
 
+    class Todo {
+        constructor(title) {
+            this.userId = 2;
+            this.title = title;
+            this.completed = false;
+        }
+    }
+
     const getTodos = api.getTodos;
+    const deleteTodo = api.deleteTodo;
+    const addTodo = api.addTodo;
 
     return { 
         getTodos,
-        State
+        deleteTodo,
+        addTodo,
+        State,
+        Todo
     }
 })(Api, View);
 
 // ~~~~~~~~~~~~~~ Controller ~~~~~~~~~~~~~~
 const appController = ((model, view) => {
     const state = new model.State();
-    // const todolist = document.querySelector(view.domStr.todolist);
+    const todolist = document.querySelector(view.domStr.todolist);
 
-    const init = () => {
-        console.log("controller: ", model.getTodos())
-        model.getTodos().then((todos) => {
-            console.log("controller: ", todos)
-            state.todolist = todos;
+    const deleteTodo = () => {
+        todolist.addEventListener("click", (event) => {
+            state.todolist = state.todolist.filter(
+                (todo) => +todo.id !== +event.target.id
+            );
+            model.deleteTodo(event.target.id)
+        });
+    };
+
+    const addTodo = () => {
+        const input = document.querySelector(view.domStr.todoinput);
+        input.addEventListener("keyup", (event) => {
+            if (event.key === "Enter" && event.target.value !== "") {
+                const todo = new model.Todo(event.target.value);
+                model.addTodo(todo).then((todo) => {
+                    state.todolist = [todo, ...state.todolist];
+                });
+                event.target.value = "";
+            }
         })
     }
 
+    const init = () => {
+        model.getTodos().then((todos) => {
+            state.todolist = todos;
+        });
+    };
+
     const bootstrap = () => {
         init();
-    }
+        deleteTodo();
+        addTodo();
+    };
 
     return { bootstrap }
 })(Model, View);

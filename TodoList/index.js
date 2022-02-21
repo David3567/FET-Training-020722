@@ -120,6 +120,7 @@ const appController = ((model, view) => {
         input.addEventListener("keyup", (event) => {
             if (event.key === "Enter" && event.target.value !== "") {
                 const todo = new model.Todo(event.target.value);
+                model.addTodo(todo).then((todo) => console.log("return fetch: ", todo));
                 model.addTodo(todo).then((todo) => {
                     state.todolist = [todo, ...state.todolist];
                 });
