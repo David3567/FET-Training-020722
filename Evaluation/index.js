@@ -38,7 +38,6 @@ const View = (() => {
         for (let i = focus; i < focus + viewnum; i++) {
             let ele = document.getElementById(i);
             ele.style.display = "block";
-            ele.style.flex = "25%";
         }
     };
 
