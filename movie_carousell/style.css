@@ -14,7 +14,7 @@ html, body {
 .movie-container {
   background-color: black;
   height: calc(100% - var(--height-header));
-  width: 100%;
+  width: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,7 +28,6 @@ html, body {
   height: var(--height-movieholder);
   width: var(--width-movieholder);
   background-color: var(--color-green);
-  box-shadow: 5px 5px 2px black;
   border-radius: 5px;
 }
 
@@ -38,7 +37,7 @@ html, body {
 }
 
 img {
-  height: 100%;
+  height: 80%;
   width: 25%;
 }
 

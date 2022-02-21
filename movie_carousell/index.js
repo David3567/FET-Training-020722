@@ -7,21 +7,6 @@ const Api = (() => {
 })();
 
 const View = (() => {
-  const slideIndex = 1;
-  //const slideShowContainer;
-
-  // hiide left/right button depending on the end or start of movie list
-
-  const showLeftBtn = () => {
-    let tmp = "";
-
-    return tmp;
-  }
-
-  const showRightBtn = () => {
-    let tmp = "";
-    return tmp;
-  }
 
   const domStr = {
     container: ".movie-container",
@@ -37,7 +22,6 @@ const View = (() => {
   const createTemp = (arr) => {
     let tmp = "";
     arr.forEach((movie) => {
-      console.log(movie);
       tmp += `
       <div class="grid-movie">
         <img src=${movie.imgUrl} style="width:100%" alt=${movie.title}/>
@@ -67,53 +51,27 @@ const Model = ((api, view) => {
     }
   }
 
-
-  const shiftLeft = () => {
-    State.movieIndex --;
-  }
-
-  const shiftRight = () => {
-    State.movieIndex ++;
-  }
-
   class State {
     #movieList = [];
-    #movieIndex = 0;
+    #index = 0;
     get movieList() {
       return this.#movieList;
     }
 
-    get movieIndex() {
-      return this.#movieIndex;
-    }
-
-    set movieIndex(newIndex) {
-      this.#movieIndex = newIndex;
-      console.log(this.#movieIndex)
-      // hide left
-      if(newIndex === 0){
-        const rightBtn = document.querySelector(view.domStr.leftBtn)
-        view.render(rightBtn, "");
-      // hide right
-      }else if(newIndex === 8){
-        const leftBtn = document.querySelector(view.domStr.rightBtn)
-        view.render(leftBtn, "");
-      }else {
-        console.log('here')
-        const leftBtn = document.querySelector(view.domStr.rightBtn)
-        view.render(leftBtn, "CLICK");
-        const rightBtn = document.querySelector(view.domStr.rightBtn)
-        view.render(rightBtn, "&#10095;");
-      }
-    }
-
     set movieList(newMovies) {
-      console.log(newMovies)
-      console.log("movieIndex: ", this.#movieIndex);
-      this.#movieList = newMovies.slice(this.#movieIndex, this.#movieIndex + 4)
+      this.#movieList = newMovies;
+      // rerender the page;
       const tmp = view.createTemp(this.#movieList);
       const movieList = document.querySelector(view.domStr.movieList);
       view.render(movieList, tmp);
+    }
+
+    get index() {
+      return this.#index;
+    }
+
+    set index(newIndex) {
+      this.#index = newIndex;
     }
   }
 
@@ -122,39 +80,45 @@ const Model = ((api, view) => {
   return {
     Movie,
     State,
-    getMovies, 
-    shiftLeft, 
-    shiftRight
+    getMovies
   }
 })(Api, View);
 
 const Controller = ((model, view) => {
   const state = new model.State();
+  const movieHolder = document.querySelector(view.domStr.movieList);
   const leftBtn = document.querySelector(view.domStr.leftBtn);
   const rightBtn = document.querySelector(view.domStr.rightBtn);
   const movieList = document.querySelector(view.domStr.movieList);
 
-
   const shiftLeft = () => {
     leftBtn.addEventListener("click", (event) => {
-      model.shiftLeft(state.movieIndex);
-      state.movieIndex = state.movieIndex - 1;
-      state.movieList = state.movieList;
-      console.log(state.movieIndex)
+      state.index--;
+      showMovies();
     })
   }
 
-  const shiftRight = () =>{
+  const shiftRight = () => {
     rightBtn.addEventListener("click", (event) => {
-      model.shiftRight(state.movieIndex);
-      state.movieIndex = state.movieIndex + 1;
-      console.log(state.movieIndex)
+      state.index++;
+      showMovies();
     })
-  }
+  };
+
+  const showMovies = () => {
+    let tmp = view.createTemp(state.movieList.slice(state.index, state.index + 4));
+    console.log(state.index)
+    console.log(tmp)
+    view.render(movieHolder, tmp);
+    leftBtn.style.visibility = state.index === 0 ? "hidden" : "visible";
+    rightBtn.style.visibility = state.index + 4 === state.movieList.length ? "hidden" : "visible";
+  };
+
   const init = () => {
     model.getMovies().then((movies) => {
       state.movieIndex = 0;
       state.movieList = movies;
+      showMovies();
     });
   };
 
@@ -163,7 +127,6 @@ const Controller = ((model, view) => {
     shiftLeft();
     shiftRight();
   };
-
 
 
   return { bootstrap };
