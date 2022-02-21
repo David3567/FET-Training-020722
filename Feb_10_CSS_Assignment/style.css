@@ -21,9 +21,10 @@ header {
   background: #c6bfbf;
 }
 
-main{
+main {
   padding-bottom: 0;
 }
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
