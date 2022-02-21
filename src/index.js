@@ -62,7 +62,7 @@ const Model = ((api, view) => {
             return this.#movielist;
         }
         set movielist(newtodos) {
-            this.#movielist = newtodos;
+            this.#movielist = newmovies;
             // rerender the page;
             const tmp = view.createTmp(this.#movielist);
             const movielist = document.querySelector(view.domStr.imagecontainer);
