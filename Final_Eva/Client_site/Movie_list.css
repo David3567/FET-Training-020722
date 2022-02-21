@@ -102,4 +102,17 @@ a:active {
 .next {
     color: black;
   }
+
+button {
+    position: relative;
+    border-radius: 50%;
+}
+
+.move-left {
+    right: -20px;
+}
+
+.move-right {
+    left: -20px;
+}
   
