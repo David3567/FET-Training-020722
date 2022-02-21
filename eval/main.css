@@ -1,0 +1,97 @@
+:root {
+    --height-header: 60px;
+    --height-carousel: 60%;
+    --height-carousel-header: 30px;
+    --width-carousel: 80%;
+    --color-green: rgb(30, 255, 0);
+    --color-red-li-hover: rgb(27, 172, 8);
+}
+
+html,
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.header {
+    height: var(--height-header);
+    line-height: var(--height-header);
+    background: linear-gradient(to right, black, var(--color-green));
+    color: white;
+
+    padding-left: 10px;
+    font-size: 2.3rem;
+
+    letter-spacing: 1px;
+    text-transform: capitalize;
+    flex-direction: row;
+}
+.movieBoxArt{
+    height: auto;
+    width: 80%;
+
+}
+
+ul {
+    display: flex;
+    flex-direction: row;
+    overflow: scroll;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Syne Tactile", cursive;
+}
+
+
+
+.container {
+    background-color: beige;
+    height: calc(100% - var(--height-header));
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.carousel {
+    height: var(--height-carousel);
+    width: var(--width-carousel);
+    background-color: var(--color-green);
+    box-shadow: 5px 5px 2px black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.carousel-header,
+.carousel-input,
+ul li {
+    height: 50%;
+    line-height: var(--height-carousel-header);
+    width: 100%;
+    padding-left: 10px;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+    flex-direction: row;
+    list-style: none;
+    border: none;
+    outline: none;
+}
+
+.carousel-header {
+    text-align: center;
+    font-size: 1.7rem;
+}
+
+.carousel-container{
+    flex-direction: row;
+    overflow: hidden;
+}
