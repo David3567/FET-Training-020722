@@ -104,8 +104,14 @@
                                 </div>`;
                 listContainer.innerHTML += movieBlock;
             }
+            pointerPosition = nextFour;
         }
         function next() {
+            if (pointerPosition > 0 && (nextFour + 4) <= movielength) {
+                nextFour = nextFour + 4;
+            } else if (pointerPosition < movielength && (nextFour + 4) >= movielength) {
+                nextFour = movielength;
+            }
             buildList(Movies);
         };
         buildList(Movies);
