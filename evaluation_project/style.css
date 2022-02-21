@@ -1,0 +1,47 @@
+body {
+  background-color: white;
+  color: black;
+  font-size: 16px;
+  font-family: "Comfortaa", cursive;
+  padding: 0px;
+  margin: 0px;
+}
+
+main {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+}
+
+.move-left {
+  height: 50px;
+  width: 50px;
+  border-radius: 100px;
+}
+
+.movie-holder {
+  display: block;
+  position: relative;
+  height: 25rem;
+  width: 40rem;
+  background-color: green;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.movie-container {
+  display: inline-block;
+  position: static;
+  height: 20em;
+  width: 10em;
+  margin: 5px;
+  background-color: grey;
+}
+
+.move-right {
+  height: 50px;
+  width: 50px;
+  border-radius: 100px;
+}
