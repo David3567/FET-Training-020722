@@ -1,0 +1,37 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+
+
+}
+
+.movie-holder{
+    background-color: darkgreen;
+    display: flex;
+    flex-direction: row;  
+    overflow: hidden;
+
+    width: 54%;
+    height: 400px;
+
+    color: white;
+
+}
+
+img{
+    width: 200px;
+
+}
+
+.move-left, .move-right{
+    border-radius: 100%;
+}
