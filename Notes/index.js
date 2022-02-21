@@ -312,6 +312,8 @@
 // }
 
 // const arr = [1, 2, 3];
+// console.log(arr.map((val,i,array)=>val+1));
+// console.log(arr.filter((val, i , array) => val < 3));
 // arr.map(function (val, i, array) {
 //     val + 1;
 // });
@@ -405,7 +407,7 @@
 //     console.log(a);
 // }
 
-// foo(1, 2, 3);
+// foo(1, 2, 3, 5);
 
 // let arr = [1, 2, 3];
 // // arr.push()
@@ -441,12 +443,14 @@
 //     { userid: 12 },
 // ];
 
-// function solution(fir, sec, thd) {
-//     const arr = [...sec, ...fir];
+// function solution(fir, sec) {
+//     const arr = [...fir, ...sec];
 //     const map = {}
 //     arr.forEach(ele => {
 //         map[ele.userid] = {
-//             userid: ele.userid
+//             ...{userid: null, name: null, role: null},
+//             ...map[ele.userid],
+//             ...ele
 //         }
 //     });
 //     return Object.values(map);
