@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<body>
+<form>
+  <select id="chars" onchange = "char_change()">
+    <!-- <option value="a">a</option>
+    <option value="b">b</option>
+    <option value="c">c</option>
+    <option value="d">d</option>
+    <option value="e">e</option>
+    <option value="f">f</option> -->
+  </select>
+
+  <select id="words" onchange="word_change()">
+    <!-- <option value="apple">apple</option>
+    <option value="banana">banana</option>
+    <option value="city">city</option>
+    <option value="dom">dom</option>
+    <option value="end">end</option>
+    <option value="forEach">forEach</option> -->
+  </select>
+
+</form>
+</body>
+
+<script>
+    const state = {
+        a: "apple",
+        b: "banana",
+        c: "city",
+        d: "dom",
+        e: "end",
+        f: "forEach"
+        };
+
+    let chars_html = ``;
+    let words_html = ``;
+
+    for (let key in state) {
+        chars_html += `<option value=${key}>${key}</option>`;
+        words_html += `<option value=${state[key]}>${state[key]}</option>`
+    }
+    
+    console.log(chars_html);
+    document.getElementById("chars").innerHTML = chars_html;
+    document.getElementById("words").innerHTML = words_html;
+
+    const char_change = () => {
+        let input = document.getElementById('chars').value;
+
+        if (state.hasOwnProperty(input)) {
+            document.getElementById('words').selectedIndex = Object.keys(state).indexOf(input);
+        }
+    }
+
+    const word_change = () => {
+        let input = document.getElementById('words').value;
+        const values = Object.values(state);
+
+        if(values.includes(input)) {
+            document.getElementById("chars").selectedIndex = values.indexOf(input);
+        }
+
+    }
+
+</script>
+
+</html>
