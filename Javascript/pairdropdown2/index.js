@@ -2,15 +2,17 @@ const View = (() => {
     const domId = {
         keys: document.querySelector('#keys'),
         values: document.querySelector('#values')
-    }
+    };
 
     const render = (ele, tmp) => {
         ele.innerHTML = tmp;
-    }
+    };
+
     return {
         domId,
         render
-    }
+    };
+    
 })();
 
 const Model = ((view) => {
@@ -21,23 +23,24 @@ const Model = ((view) => {
         d: "dom",
         e: "end",
         f: "forEach"
-    }
+    };
 
     const createKeyList = () => {
         let tmp = '';
         Object.keys(state).forEach((key) => {
             tmp += `<option value="${key}">${key}</option>`;
         });
-        console.log("keys: ", keys)
         view.render(keys, tmp);
-    }
+    };
+
     const createValueList = () => {
         let tmp = '';
         Object.keys(state).forEach((key) => {
             tmp += `<option value="${key}">${state[key]}</option>`;
-        })
-        view.render(values, tmp)
-    }
+        });
+        view.render(values, tmp);
+    };
+
     const relationship = () => {
         view.domId.keys.addEventListener('change', (event) => {
             view.domId.values.value = event.target.value;
@@ -45,13 +48,13 @@ const Model = ((view) => {
         view.domId.values.addEventListener('change', (event) => {
             view.domId.keys.value = event.target.value;
         });
-    }
+    };
 
     return {
         createKeyList,
         createValueList,
         relationship
-    }
+    };
 
 })(View);
 
@@ -61,9 +64,10 @@ const Controller = ((model) => {
         model.createKeyList();
         model.createValueList();
         model.relationship();
-    }
+    };
 
-    return { init }
+    return { init };
+
 })(Model);
 
-Controller.init()
+Controller.init();
