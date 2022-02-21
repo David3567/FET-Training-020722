@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+
+<body>
+
+    <h1>The select element</h1>
+
+    <p>The select element is used to create a drop-down list.</p>
+
+    <form action="/action_page.php">
+        <label for="letter">Choose a letter</label>
+        
+    </form>
+
+
+
+    <script>
+        const state = {
+            a: "apple",
+            b: "banana",
+            c: "city",
+            d: "dom",
+            e: "end",
+            f: "forEach"
+        };
+
+        let getKey = document.getElementById("letter").innerHTML;
+        let getValue = document.getElementById('firuts').innerHTML;
+
+
+        // document.getElementById("letter").innerHTML = `
+        //     <option value="a">${Object.keys(state)[0]}</option>
+        //     <option value="saab">${Object.keys(state)[1]}</option>
+        //     <option value="opel">${Object.keys(state)[2]}</option>
+        //     <option value="audi">${Object.keys(state)[3]}</option>
+        //     <option value="opel">${Object.keys(state)[4]}</option>
+        //     <option value="opel">${Object.keys(state)[5]}</option>`
+
+
+
+        // document.getElementById("firuts").innerHTML = `
+        //     <option value="a">${state.a}</option>
+        //     <option value="a">${state.b}</option>
+        //     <option value="a">${state.c}</option>
+        //     <option value="a">${state.d}</option>
+        //     <option value="a">${state.e}</option>
+        //     <option value="a">${state.f}</option>`
+
+        for(let key in state){
+            let y = document.createElement("option");
+            y.textContent = key.keys;
+            y.value = key.value;
+            select.app
+        }
+        
+
+
+    </script>
+
+</body>
+
+</html>
