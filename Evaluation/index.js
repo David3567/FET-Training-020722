@@ -122,6 +122,11 @@ const appController = ((Model, View) => {
     const init = () => {
         Model.getMovies().then((movies) => {
             state.movielist = movies;
+            if(state.movielist.length <= viewnum){
+                viewnum = state.movielist.length;
+                leftbn.style.display = "none";
+                rightbn.style.display = "none";
+            }
             View.show(focus, viewnum);
         });
         
