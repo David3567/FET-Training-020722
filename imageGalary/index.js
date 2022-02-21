@@ -62,7 +62,7 @@ const Model = ((api, view) => {
             const tmp = view.createTmp(this.#imagelist);
             // print(tmp);
             const imagelist = document.querySelector(view.domStr.imagelist);
-             view.render(imagelist, tmp);
+            view.render(imagelist, tmp);
         }
     }
 
@@ -79,7 +79,7 @@ const Model = ((api, view) => {
 //~~~~~~~~~~~~~~~~~~~~CONTROLLER~~~~~~~~~~~~~~~~~~
 const appController = ((model, view) => {
     const display = new model.Display();
-    
+
     const init = () => {
 
         model.getImages().then((images) => {
@@ -89,7 +89,7 @@ const appController = ((model, view) => {
 
     };
     const shownext = () => {
-        
+
         view.domStr.nextimage.addEventListener('click', event => {
             start++;
             end++;
@@ -109,20 +109,20 @@ const appController = ((model, view) => {
         })
 
     }
-    const btnDisplay = () =>{
-        if(start ===0){
-            view.domStr.previmage.style.visibility="hidden";
+    const btnDisplay = () => {
+        if (start === 0) {
+            view.domStr.previmage.style.visibility = "hidden";
             // con
-        }else{
-            view.domStr.previmage.style.visibility ="visible";
+        } else {
+            view.domStr.previmage.style.visibility = "visible";
         }
-        if(end ===9){
-            view.domStr.nextimage.style.visibility="hidden";
+        if (end === 9) {
+            view.domStr.nextimage.style.visibility = "hidden";
             // con
-        }else{
-            view.domStr.nextimage.style.visibility ="visible";
+        } else {
+            view.domStr.nextimage.style.visibility = "visible";
         }
-        
+
     }
     const run = () => {
         init();

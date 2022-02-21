@@ -22,7 +22,7 @@
   font-size: 12px;
 }
 .poster {
-  background: linear-gradient(to right, rgb(4, 48, 11) , rgb(6, 126, 6));
+  background: linear-gradient(to right, rgb(23, 204, 53), rgb(1, 19, 1));
 
   width: 23%;
   height: 500px;
@@ -34,8 +34,8 @@
   padding-top: 10px;
   padding-bottom: 50px;
 }
-.images :nth-child(2n){
-  background:red;
+.poster:nth-of-type(2n) {
+  background:linear-gradient(to left, rgb(23, 204, 53), rgb(1, 19, 1));
 }
 
 .image {
@@ -51,11 +51,9 @@ button {
 }
 
 .next {
-
   transform: translate(-50%, -50%);
-  
 }
-.prev{
+.prev {
   transform: translate(50%, -50%);
 }
 
