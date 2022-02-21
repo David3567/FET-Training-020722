@@ -59,7 +59,7 @@ const Model = ((api, view) => {
         #movielist = [];
 
         get movielist() {
-            return this.#todolist;
+            return this.#movielist;
         }
         set movielist(newtodos) {
             this.#movielist = newtodos;
