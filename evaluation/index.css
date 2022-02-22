@@ -5,33 +5,53 @@
 
 }
 
+html, body{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
 .container{
+    height: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 50px;
 
+    position: relative;
 
+}
+
+.movielist{
+    display: flex;
+    flex-direction: row;
+    position: relative;
 }
 
 .movie-holder{
     background-color: darkgreen;
-    display: flex;
-    flex-direction: row;  
-    overflow: hidden;
 
-    width: 54%;
+    width: 820px;
     height: 400px;
 
     color: white;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
 
 }
 
 img{
     width: 200px;
-
+    margin: 2.5px;
 }
 
 .move-left, .move-right{
+    
+    
+    height: 20px;
+    width: 20px;
     border-radius: 100%;
+    margin-top: 200px;
+
 }

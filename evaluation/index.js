@@ -1,15 +1,17 @@
 //API
-const Api = (() =>{
+const Api = (() => {
     const getMovie = () =>
         fetch('http://localhost:3000/movies')
-        .then(response => response.json())
+            .then(response => response.json())
 
-    return{
+    return {
         getMovie
     }
 })();
 
 Api.getMovie();
+
+
 //VIEW
 const View = (() => {
     const domStr = {
@@ -18,7 +20,7 @@ const View = (() => {
         swipeLeft: ".move-left"
     }
 
-    const render = (ele, tmp) =>{
+    const render = (ele, tmp) => {
         ele.innerHTML = tmp;
     }
 
@@ -31,14 +33,14 @@ const View = (() => {
                     <div>${movie.title}</div>
                     <div>${movie.updateInfo}</div>
                 </div>
-            
+
             `;
-            
+
         });
         return tmp;
     }
 
-    return{
+    return {
         domStr,
         render,
         createTmp
@@ -48,48 +50,87 @@ const View = (() => {
 
 
 //MODEL
-const Model = ((api) => {
+const Model = ((api, view) => {
+    class State {
+        #movielist = [];
+
+        get movielist(){
+            return this.#movielist;
+        }
+
+        set movielist(newMovie){
+            this.#movielist = newMovie;
+
+            const tmp = view.createTmp(this.#movielist);
+            const movielist = document.querySelector(view.domStr.movielist);
+            view.render(movielist, tmp);
+        }
+    };
+
+    
+
     const getMovie = api.getMovie;
 
-    return{
+    return {
+        State,
         getMovie
     }
 
 
-})(Api);
+})(Api, View);
 
 //CONTROLLER
 const appController = ((model, view) => {
+    const state = new model.State();
+    const movielist = document.querySelector(view.domStr.movielist);
 
-    const init  = () => {
-        
-        model.getMovie().then((movie) =>{
-            const tmp = view.createTmp(movie);
-            const movieShow = document.querySelector(view.domStr.movielist);
-            view.render(movieShow, tmp);
-            
-            
+    const init = () => {
+
+        model.getMovie().then((movie) => {
+            state.movielist = movie;
+
         });
 
     }
 
+
+    let startIdx  = 0;
+    
     const rightBtn = document.querySelector(view.domStr.swipeRight);
-    rightBtn.addEventListener("click", function(event) {
-        event.preventDefault();
-        const content = document.querySelector(view.domStr.movielist);
-        content.scrollLeft += 200;
-    });
-
     const leftBtn = document.querySelector(view.domStr.swipeLeft);
-    leftBtn.addEventListener("click", function(event) {
-        const content = document.querySelector(view.domStr.movielist);
-        content.scrollLeft -= 200;
-        event.preventDefault();
-    })
+    const moveRight = () =>{
 
+        rightBtn.addEventListener("click", function (event) {
+            const content = document.querySelector(view.domStr.movielist);
+            content.scrollLeft += 205;
+            startIdx++;
+           
+        });
 
-    return{init}
+     }   
+     
+     
+    const moveLeft = () =>{
 
-})(Model, View);
+        leftBtn.addEventListener("click", function (event) {
+            const content = document.querySelector(view.domStr.movielist);
+            content.scrollLeft -= 205;
+            startIdx--;
+        });
+    }
 
-appController.init();
+    
+
+    
+
+    const bootstrap = () => {
+        init();
+        moveRight();
+        moveLeft();
+    }
+
+    return { bootstrap}
+
+}) (Model, View);
+
+appController.bootstrap();
