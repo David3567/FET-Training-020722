@@ -13,10 +13,11 @@ const API = (() => {
 
 const View = (() => {
     const domString = {
+        movieholder: '.movie-holder',
         todolistContainer: '.todolist-container',
         moveRight: '.move-right',
         moveLeft: '.move-left',
-        
+
     }
 
     const render = (element, tmp) => {
@@ -45,11 +46,11 @@ const View = (() => {
 const Model = ((api, view) => {
     //interface
     class Todo {
-        constructor(title,updatedInfo) {
+        constructor(title, updatedInfo) {
             // id does not care 
             this.updatedInfo = updatedInfo;
             this.title = title;
-            
+
         }
     }
     class State {
@@ -58,7 +59,7 @@ const Model = ((api, view) => {
         // getter: to get the data
         get todolist() {
             return this.#todolist;
-            
+
         }
 
         set todolist(newData) {
@@ -82,7 +83,7 @@ const Model = ((api, view) => {
 
 const Controler = ((view, model) => {
     const state = new model.State();
-    
+
 
     const initTodoList = () => {
         model.getAllTodos().then(todolist => {
@@ -93,12 +94,56 @@ const Controler = ((view, model) => {
     }
 
     const moveleft = () => {
-        // const moveLeftbtn = document.querySelector(view.domString.moveLeft);
+        const moveLeftbtn = document.querySelector(view.domString.moveLeft);
+        const moveRightbtn = document.querySelector(view.domString.moveRight);
+        const container = document.querySelector(view.domString.todolistContainer);
+        let imageOffset = 0;
+        moveLeftbtn.addEventListener('click', event => {
+            if (imageOffset > - 900) {
+                imageOffset -= 210;
+                container.style.left = imageOffset + 'px';
+            } else {
+                moveLeftbtn.style.visibility = "hidden";
+            }
+
+        });
+    }
+
+    const moveright = () => {
+        const moveLeftbtn = document.querySelector(view.domString.moveLeft);
+        const moveRightbtn = document.querySelector(view.domString.moveRight);
+        const container = document.querySelector(view.domString.todolistContainer);
+        let imageOffset = 0;
+        moveRightbtn.addEventListener('click', event => {
+            if (imageOffset < 20) {
+                imageOffset += 210;
+                container.style.left = imageOffset + 'px';
+            } else {
+                moveRightbtn.style.visibility = "hidden";
+            }
+
+        });
+    }
+
+
+    const wheelMovies = () => {
+        const moveLeftbtn = document.querySelector(view.domString.moveLeft);
+        const moveRightbtn = document.querySelector(view.domString.moveRight);
+        const scroller = document.querySelector(view.domString.movieholder);
+        scroller.addEventListener("wheel", event => {
+            event.preventDefault();
+            scroller.scrollLeft += event.deltaY;
+            moveLeftbtn.style.visibility = "visible";
+            moveRightbtn.style.visibility = "visible";
+        });
         
     }
 
     const init = () => {
         initTodoList();
+        wheelMovies();
+        moveleft();
+        moveright();
     }
 
     return { init };
