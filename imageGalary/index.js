@@ -1,5 +1,5 @@
-const print = (arg) => console.log(arg);
-
+// const print = (arg) => console.log(arg);
+let [start, end] = [0, 4];
 //~~~~~~~~~~~~~~~~~~~~API~~~~~~~~~~~~~~~~~~~~~~~~
 const Api = (() => {
     const baseUrl = "http://localhost:3000";
@@ -14,8 +14,6 @@ const Api = (() => {
     }
 })();
 
-let [start, end] = [0, 4];
-// Api.getImages();
 //~~~~~~~~~~~~~~~~~~~~VIEW~~~~~~~~~~~~~~~~~~~~~~~~
 const View = (() => {
     //create the object hold data to font-end
@@ -24,11 +22,9 @@ const View = (() => {
         nextimage: document.querySelector('.next'),
         previmage: document.querySelector('.prev'),
     }
-
     const render = (ele, tmp) => {
         ele.innerHTML = tmp;
     }
-
     const createTmp = arr => {
         let tmp = '';
         arr.forEach(image => {
@@ -42,7 +38,6 @@ const View = (() => {
         });
         return tmp;
     }
-
     return {
         render,
         createTmp,
@@ -60,18 +55,20 @@ const Model = ((api, view) => {
         set imagelist(newimages) {
             this.#imagelist = newimages;
             const tmp = view.createTmp(this.#imagelist);
-            // print(tmp);
             const imagelist = document.querySelector(view.domStr.imagelist);
             view.render(imagelist, tmp);
         }
     }
-
+    const btnDisplay = () => {
+        view.domStr.previmage.style.visibility = start === 0 ? "hidden" : "visible";
+        view.domStr.nextimage.style.visibility = end === 9 ? "hidden" : "visible";
+    }
 
     const getImages = api.getImages;
-
     return {
         getImages,
-        Display
+        Display,
+        btnDisplay,
     }
 })(Api, View)
 
@@ -79,64 +76,38 @@ const Model = ((api, view) => {
 //~~~~~~~~~~~~~~~~~~~~CONTROLLER~~~~~~~~~~~~~~~~~~
 const appController = ((model, view) => {
     const display = new model.Display();
+    let imageslist = [];
 
     const init = () => {
-
         model.getImages().then((images) => {
-            display.imagelist = images.slice(start, end);
+            imageslist = [...images];
+            model.btnDisplay();
+            display.imagelist = imageslist.slice(start, end);
         });
-
-
     };
     const shownext = () => {
-
         view.domStr.nextimage.addEventListener('click', event => {
             start++;
             end++;
-            model.getImages().then((images) => {
-                display.imagelist = images.slice(start, end);
-            });
-            btnDisplay();
+            display.imagelist = imageslist.slice(start, end);
+            model.btnDisplay();
         })
-
         view.domStr.previmage.addEventListener('click', event => {
             start--;
             end--;
-            model.getImages().then((images) => {
-                display.imagelist = images.slice(start, end);
-            });
-            btnDisplay();
+            display.imagelist = imageslist.slice(start, end);
+            model.btnDisplay();
         })
-
-    }
-    const btnDisplay = () => {
-        if (start === 0) {
-            view.domStr.previmage.style.visibility = "hidden";
-            // con
-        } else {
-            view.domStr.previmage.style.visibility = "visible";
-        }
-        if (end === 9) {
-            view.domStr.nextimage.style.visibility = "hidden";
-            // con
-        } else {
-            view.domStr.nextimage.style.visibility = "visible";
-        }
 
     }
     const run = () => {
         init();
         shownext();
-        btnDisplay();
     }
     return {
         run
     }
 
 })(Model, View);
+
 appController.run();
-
-
-function plusSlides(n) {
-    showSlides(slideIndex += n);
-}
