@@ -1,0 +1,57 @@
+body{
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-flow: row;
+    position: relative;
+}
+
+ul li figure{
+    padding: 3px;
+    margin: 0;
+    font-size: 9px;
+    font-weight: thin;
+}
+
+img {
+    width: 150px
+}
+
+div {
+    border: thin solid black;
+    padding-bottom: 40px;
+    overflow: auto;
+    overflow-x: hidden;
+    width: 39rem;
+    font-style:italic
+}
+
+#prev, #next {
+    border-radius: 50px;
+    border-style: solid;
+    position: absolute;
+    cursor: pointer;
+}
+
+#prev {
+    left: 19rem;
+    top: 44%;
+}
+
+#next {
+    right: 19rem;
+     top: 44%;
+    
+}
+
+figcaption {
+    margin-top: 2px;
+}

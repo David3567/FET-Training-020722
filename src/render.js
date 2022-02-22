@@ -1,14 +1,10 @@
 const Api = (() => {
-    const urlObj = {
-        baseUrl: "http://localhost:3000",
-        movies: 'movies'
-    }
         
-    const getMovieCardInfo = () =>
-        fetch([urlObj.baseUrl, urlObj.movies].join("/")).then((response) => response.json());
+    const getMovies = () =>
+        fetch("http://localhost:3000/movies").then((response) => response.json());
 
     return {
-        getMovieCardInfo,
+        getMovies,
     };
 })();
 // ~~~~~~~~~~~~View~~~~~~~~~~~~~~
@@ -24,13 +20,13 @@ const View = (() => {
     
     const createTmp = (arr) => {
         let tmp = "";
-        arr.forEach((movie, i) => {
+        arr.forEach((movie) => {
             tmp += `
                 <li>
                     <figure>
-                        <img src="${movie[i].imgUrl}" alt="${movie[i].title}" />
-                        <figcaption>${movie[i].title}</figcaption>
-                        <figcaption>${movie[i].updateInfo}</figcaption>
+                        <img src="${movie.imgUrl}" alt="${movie.title}" />
+                        <figcaption>${movie.title}</figcaption>
+                        <figcaption>${movie.updateInfo}</figcaption>
                     </figure>
                 </li>
             `;
@@ -47,13 +43,6 @@ const View = (() => {
 
 // ~~~~~~~~~~~~Model~~~~~~~~~~~~~~
 const Model = ((api, view) => {
-    class Movies {
-        constructor(title, image, info) {
-            this.image = image;
-            this.title = title;
-            this.info = info;
-        }
-    }
 
     class State {
         #movielist = [];
@@ -61,7 +50,7 @@ const Model = ((api, view) => {
         get movielist() {
             return this.#movielist;
         }
-        set movielist(newtodos) {
+        set movielist(newmovies) {
             this.#movielist = newmovies;
             // rerender the page;
             const tmp = view.createTmp(this.#movielist);
@@ -70,12 +59,11 @@ const Model = ((api, view) => {
         }
     }
 
-    const getMovies = api.getMovieCardInfo;
+    const getMovies = api.getMovies;
 
     return {
         getMovies,
         State,
-        Movies,
     };
 })(Api, View);
 
