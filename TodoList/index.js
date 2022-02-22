@@ -44,7 +44,7 @@ const View = (() => {
         arr.forEach((todo) => {
             tmp += `
                 <li>
-                    <span>${todo.title}</span>
+                    <span>${todo.id}-${todo.title}</span>
                     <button class="delete-btn" id="${todo.id}">X</button>
                 </li>
             `;

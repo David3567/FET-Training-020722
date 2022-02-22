@@ -20,7 +20,8 @@ const Model = ((view) => {
         c: "city",
         d: "dom",
         e: "end",
-        f: "forEach"
+        f: "forEach",
+        g: 'gold'
     };
     const createKeyList = () => {
         let tmp = '';
