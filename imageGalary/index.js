@@ -1,4 +1,4 @@
-// const print = (arg) => console.log(arg);
+//destructure the var
 let [start, end] = [0, 4];
 //~~~~~~~~~~~~~~~~~~~~API~~~~~~~~~~~~~~~~~~~~~~~~
 const Api = (() => {
@@ -19,8 +19,8 @@ const View = (() => {
     //create the object hold data to font-end
     const domStr = {
         imagelist: ".images",
-        nextimage: document.querySelector('.next'),
-        previmage: document.querySelector('.prev'),
+        nextimage: document.querySelector('.button--next'),
+        previmage: document.querySelector('.button--prev'),
     }
     const render = (ele, tmp) => {
         ele.innerHTML = tmp;
@@ -30,8 +30,8 @@ const View = (() => {
         arr.forEach(image => {
             tmp += `
             <div class="poster">
-                <img class="image" src="${image.imgUrl}" alt="" />
-                <div class = "text">Movie: <span>${image.title}</span></div>
+                <img class="img image" src="${image.imgUrl}" alt="" id ="${image.id}"/>
+                <div class = "text ">Movie: <span>${image.title}</span></div>
                 <div class = "text">Info: <span>${image.updateInfo}</span></div>
             </div>  
             `;
@@ -77,7 +77,7 @@ const Model = ((api, view) => {
 const appController = ((model, view) => {
     const display = new model.Display();
     let imageslist = [];
-
+    
     const init = () => {
         model.getImages().then((images) => {
             imageslist = [...images];
@@ -86,20 +86,18 @@ const appController = ((model, view) => {
         });
     };
     const shownext = () => {
-        view.domStr.nextimage.addEventListener('click', event => {
-            start++;
-            end++;
-            display.imagelist = imageslist.slice(start, end);
+        view.domStr.nextimage.addEventListener('click', () => {
+            display.imagelist = imageslist.slice(++start, ++end);
             model.btnDisplay();
-        })
-        view.domStr.previmage.addEventListener('click', event => {
-            start--;
-            end--;
-            display.imagelist = imageslist.slice(start, end);
-            model.btnDisplay();
-        })
 
+        })
+        view.domStr.previmage.addEventListener('click', () => {
+            display.imagelist = imageslist.slice(--start, --end);
+            model.btnDisplay();
+
+        })
     }
+
     const run = () => {
         init();
         shownext();
