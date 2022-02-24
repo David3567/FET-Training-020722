@@ -73,11 +73,4 @@ body {
     padding-left: 150px;
 }
 
-@media (max-width:600px){
-    .movie-holder ul{
-       padding-left: 0%;
-       justify-content: center;
-    }
- }
-
 
