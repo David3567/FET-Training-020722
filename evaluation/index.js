@@ -61,7 +61,7 @@ const Model = ((api, view) => {
         set movielist(newMovie) {
             this.#movielist = newMovie;
 
-            const tmp = view.createTmp(this.#movielist);
+            const tmp = view.createTmp(this.#movielist.slice(0, 4));
             const movielists = document.querySelector(view.domStr.movielist);
             view.render(movielists, tmp);
         }
@@ -80,28 +80,23 @@ const Model = ((api, view) => {
 //CONTROLLER
 const appController = ((model, view) => {
     const state = new model.State();
-    const movielist = document.querySelector(view.domStr.movielist);
+    // const movielist = document.querySelector(view.domStr.movielist);
 
     const rightBtn = document.querySelector(view.domStr.swipeRight);
     const leftBtn = document.querySelector(view.domStr.swipeLeft);
-    const moveRight = () =>{
-
-        rightBtn.addEventListener("click", function (event) {
+    const moveRight = () => {
+        rightBtn.addEventListener("click", function () {
             let a = state.movielist.shift();
             state.movielist = [...state.movielist, a];
-            state.movielist.slice(0,4);
         });
 
     }
-     
-     
-    const moveLeft = () =>{
 
+
+    const moveLeft = () => {
         leftBtn.addEventListener("click", function (event) {
             let a = state.movielist.pop();
             state.movielist = [a, ...state.movielist];
-            state.movielist.slice(0,4);
-            
         });
     }
 
