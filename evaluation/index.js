@@ -54,26 +54,24 @@ const Model = ((api, view) => {
     class State {
         #movielist = [];
 
-        get movielist(){
+        get movielist() {
             return this.#movielist;
         }
 
-        set movielist(newMovie){
+        set movielist(newMovie) {
             this.#movielist = newMovie;
 
             const tmp = view.createTmp(this.#movielist);
-            const movielist = document.querySelector(view.domStr.movielist);
-            view.render(movielist, tmp);
+            const movielists = document.querySelector(view.domStr.movielist);
+            view.render(movielists, tmp);
         }
-    };
-
-    
+    }
 
     const getMovie = api.getMovie;
 
     return {
         State,
-        getMovie
+        getMovie,
     }
 
 
@@ -84,44 +82,34 @@ const appController = ((model, view) => {
     const state = new model.State();
     const movielist = document.querySelector(view.domStr.movielist);
 
-    const init = () => {
-
-        model.getMovie().then((movie) => {
-            state.movielist = movie;
-
-        });
-
-    }
-
-
-    let startIdx  = 0;
-    
     const rightBtn = document.querySelector(view.domStr.swipeRight);
     const leftBtn = document.querySelector(view.domStr.swipeLeft);
     const moveRight = () =>{
 
         rightBtn.addEventListener("click", function (event) {
-            const content = document.querySelector(view.domStr.movielist);
-            content.scrollLeft += 205;
-            startIdx++;
-           
+            let a = state.movielist.shift();
+            state.movielist = [...state.movielist, a];
+            state.movielist.slice(0,4);
         });
 
-     }   
+    }
      
      
     const moveLeft = () =>{
 
         leftBtn.addEventListener("click", function (event) {
-            const content = document.querySelector(view.domStr.movielist);
-            content.scrollLeft -= 205;
-            startIdx--;
+            let a = state.movielist.pop();
+            state.movielist = [a, ...state.movielist];
+            state.movielist.slice(0,4);
+            
         });
     }
 
-    
-
-    
+    const init = () => {
+        model.getMovie().then((movie) => {
+            state.movielist = movie;
+        });
+    }
 
     const bootstrap = () => {
         init();
@@ -129,8 +117,8 @@ const appController = ((model, view) => {
         moveLeft();
     }
 
-    return { bootstrap}
+    return { bootstrap }
 
-}) (Model, View);
+})(Model, View);
 
 appController.bootstrap();
