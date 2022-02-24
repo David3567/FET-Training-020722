@@ -1,142 +1,239 @@
 // ~~~~~~~~~~~~Api~~~~~~~~~~~~~~
 const Api = (() => {
-    // const baseUrl = "https://jsonplaceholder.typicode.com";
-    const baseUrl = "http://localhost:3000";
-    const todo = "todos";
+    
+    const movie = "movies";
 
-    const getTodos = () =>
-        fetch([baseUrl, todo].join("/")).then((response) => response.json());
+    const baseUrl_movies = "http://localhost:3000";
 
-    const deleteTodo = (id) => {
-        console.log(id);
-        fetch([baseUrl, todo, id].join("/"), {
-            method: "DELETE",
-        });
+    const getMovies = () => 
+        fetch([baseUrl_movies, movie].join("/")).then((response) => response.json());
+
+
+    const Next = ( id ) => {
+        console.log( "Next" )
     }
 
-    const addTodo = (newtodo) =>
-        fetch([baseUrl, todo].join("/"), {
-            method: "POST",
-            body: JSON.stringify(newtodo),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            },
-        }).then((response) => response.json());
+    const Back = (id  ) => {
+        console.log( "Back" )
+    }
 
+   
     return {
-        getTodos,
-        deleteTodo,
-        addTodo,
+        
+        getMovies,
+        Next,
+        Back,
     };
 })();
 // ~~~~~~~~~~~~View~~~~~~~~~~~~~~
 const View = (() => {
-    const domStr = {
-        todolist: ".todolist-container",
-        deletebtn: ".delete-btn",
-        todoinput: ".todolist-input",
+   
+    const domStr2 = {
+        movielist: ".movielist-container",
+        nextbtn: ".next-btn",
+        backbtn: ".back-btn",
     };
-    const render = (ele, tmp) => {
+
+
+
+    const renderMovie = (ele, tmp) => {
         ele.innerHTML = tmp;
+        //console.log( "Render Movie " + tmp );
     };
-    const createTmp = (arr) => {
+
+   
+
+    const createMovie = (arr , start ) => {
+        let  count = 0;
         let tmp = "";
-        arr.forEach((todo) => {
-            tmp += `
-                <li>
-                    <span>${todo.title}</span>
-                    <button class="delete-btn" id="${todo.id}">X</button>
-                </li>
-            `;
+        arr.forEach( (movie) => {
+
+            if(  ( count >= start ) && (  count < (start+4) )  ){
+                tmp += `<div style="float:left; padding:10px; " >
+                <img id="${movie.id}"  src =  "${movie.imgUrl}"  />
+                <h2> ${movie.title} </h2>
+                <h2 style="width:330px" > ${movie.updateInfo} </h2>
+                </div>
+                `;
+            }
+            count +=1;
+
+           
+            //console.log( movie );
         });
-        return tmp;
+
+        return tmp + '       <input type="hidden" id="start" name="start" value="'+start+'"> ' ;
     };
 
     return {
-        domStr,
-        render,
-        createTmp,
+        domStr2,
+        renderMovie,
+        createMovie,
     };
 })();
 
 // ~~~~~~~~~~~~Model~~~~~~~~~~~~~~
 const Model = ((api, view) => {
-    class Todo {
-        constructor(title) {
-            this.userId = 2;
+   
+
+    class Movie {
+        constructor( id , title , imgUrl , updateInfo ) {
+            this.id = id;
             this.title = title;
-            this.completed = false;
+            this.imgUrl = imgUrl;
+            this.updateInfo = updateInfo;
         }
     }
 
-    class State {
-        #todolist = [];
+   
 
-        get todolist() {
-            return this.#todolist;
+    class State2 {
+        #movielist = [];
+
+        get movielist() {
+            return this.#movielist;
         }
-        set todolist(newtodos) {
-            this.#todolist = newtodos;
+
+        // state2.movielist = movies (json object);
+        //                      /
+        //                     v                  
+        set movielist( newmovies ) {
+            //console.log( "Setting movielist" );
+            
+            this.#movielist = newmovies;
             // rerender the page;
-            const tmp = view.createTmp(this.#todolist);
-            const todolist = document.querySelector(view.domStr.todolist);
-            view.render(todolist, tmp);
+            const tmp = view.createMovie(this.#movielist , 0 ); //converts json object into html
+            const movielist = document.querySelector(view.domStr2.movielist);
+            
+            view.renderMovie(movielist, tmp); //inserts html in movie list container
+
         }
     }
 
-    const getTodos = api.getTodos;
-    const deleteTodo = api.deleteTodo;
-    const addTodo = api.addTodo;
+    const getMovies = api.getMovies;
+    const Next = api.Next;
+    const Back = api.Back;
+
 
     return {
-        getTodos,
-        deleteTodo,
-        addTodo,
-        State,
-        Todo,
+       
+
+        getMovies,
+        Next,
+        Back,
+
+
+        Movie,
+        State2,
     };
 })(Api, View);
 
 // ~~~~~~~~~~~~Controller~~~~~~~~~~~~~~
-const appController = ((model, view) => {
-    const state = new model.State();
-    const todolist = document.querySelector(view.domStr.todolist);
+const appController = ( (model, view) => {
+
+    const state2 = new model.State2(); //one time object
+    const movielist = document.querySelector(view.domStr2.movielist);
+    let nextbtn = document.querySelector(view.domStr2.nextbtn);
+    let backbtn = document.querySelector(view.domStr2.backbtn);
 
     let id = 0;
 
-    const deleteTodo = () => {
-        todolist.addEventListener("click", (event) => {
-            state.todolist = state.todolist.filter(
-                (todo) => +todo.id !== +event.target.id
-            );
 
-            model.deleteTodo(event.target.id);
-        });
-    };
+    const Next = () => {
+        
+        nextbtn.addEventListener("click", (event) => {
 
-    const addTodo = () => {
-        // const todo = new model.Todo();
-        const input = document.querySelector(view.domStr.todoinput);
-        input.addEventListener("keyup", (event) => {
-            if (event.key === "Enter" && event.target.value !== "") {
-                const todo = new model.Todo(event.target.value);
-                model.addTodo(todo).then((todo) => {
-                    state.todolist = [todo, ...state.todolist];
-                });
-                event.target.value = "";
+           //console.log( "Clicked on Next " +  document.getElementById( "start" ).value  );
+            
+           //console.log( "length " + state2.movielist.length  )
+        
+            let start = parseInt( document.getElementById( "start" ).value );
+
+
+            if ( (start+5) === state2.movielist.length )
+            {
+                nextbtn.style.display =  "none";
             }
+            backbtn.style.display =  "block";
+
+
+           const tmp = view.createMovie(state2.movielist , start + 1 );
+           const movielist = document.querySelector(view.domStr2.movielist);
+           view.renderMovie(movielist, tmp);
+
+        });
+
+    };
+
+    const Back = () => {
+
+        
+        backbtn.style.display =  "none";
+
+        
+        backbtn.addEventListener("click", (event) => {
+
+            console.log( "Clicked on back " +  document.getElementById( "start" ).value  );
+
+
+            let start = parseInt( document.getElementById( "start" ).value );
+
+
+            if ( start === 1 )
+            {
+                backbtn.style.display =  "none";
+            }
+            nextbtn.style.display =  "block";
+
+           const tmp = view.createMovie(state2.movielist , start - 1 );
+           const movielist = document.querySelector(view.domStr2.movielist);
+           view.renderMovie(movielist, tmp);
         });
     };
+
+    
+    const Search = () => {
+
+        searchbtn = document.getElementById( "search" );
+
+        searchbtn.addEventListener("click", (event) => {
+
+            console.log( "Clicked on search " +  document.getElementById( "movie-title" ).value  );
+
+
+            let movie_title = document.getElementById( "movie-title" ).value;
+
+            state2.movielist.forEach(movie => {
+                if( movie.title === movie_title  )
+                {
+                  document.getElementById(  "searched-movie" ).src = movie.imgUrl ; 
+                   
+                  
+                }
+                
+            });
+            
+        });
+    };
+
 
     const init = () => {
-        model.getTodos().then((todos) => {
-            state.todolist = todos;
+
+        model.getMovies().then( (movies) => {
+            state2.movielist = movies;
+            //the above line will call set function of state2 class
+            
         });
+        //console.log( "Came in init" );
     };
+
     const bootstrap = () => {
+        
         init();
-        deleteTodo();
-        addTodo();
+        Next();
+        Back();
+        Search();
+    
     };
 
     return { bootstrap };

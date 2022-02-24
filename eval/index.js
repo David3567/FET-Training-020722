@@ -34,7 +34,7 @@ const View = (() => {
         backbtn: ".back-btn",
     };
 
-    
+
 
     const renderMovie = (ele, tmp) => {
         ele.innerHTML = tmp;
@@ -44,23 +44,36 @@ const View = (() => {
    
 
     const createMovie = (arr , start ) => {
-        let  count = 0;
         let tmp = "";
-        arr.forEach( (movie) => {
 
-            if(  ( count >= start ) && (  count < (start+4) )  ){
-                tmp += `<div style="float:left; padding:10px; " >
-                <img id="${movie.id}"  src =  "${movie.imgUrl}"  />
-                <h2> ${movie.title} </h2>
-                <h2 style="width:330px" > ${movie.updateInfo} </h2>
-                </div>
-                `;
+        for (let i = 0 ; i < 4; i++) {
+            
+            // console.log( start );
+
+            let arr_index = (start+i)%arr.length;
+
+            if( arr_index < 0 )
+            {
+                arr_index = arr.length - Math.abs( arr_index ) ;
             }
-            count +=1;
+
+            console.log( arr_index );
+            
+            movie = arr[arr_index];
+
+            tmp += `<div style="float:left; padding:10px; " >
+            <img id="${movie.id}"  src =  "${movie.imgUrl}"  />
+            <h2> ${movie.title} </h2>
+            <h2 style="width:330px" > ${movie.updateInfo} </h2>
+            </div>
+            `;
+
+            //start = start+1;
 
            
-            //console.log( movie );
-        });
+           
+        }
+
         return tmp + '       <input type="hidden" id="start" name="start" value="'+start+'"> ' ;
     };
 
@@ -92,17 +105,26 @@ const Model = ((api, view) => {
         get movielist() {
             return this.#movielist;
         }
+
+        // state2.movielist = movies (json object);
+        //                      /
+        //                     v                  
         set movielist( newmovies ) {
             //console.log( "Setting movielist" );
             
             this.#movielist = newmovies;
             // rerender the page;
-            const tmp = view.createMovie(this.#movielist , 0 );
+            const tmp = view.createMovie(this.#movielist , 0 ); //converts json object into html
             const movielist = document.querySelector(view.domStr2.movielist);
-            view.renderMovie(movielist, tmp);
+            
+            view.renderMovie(movielist, tmp); //inserts html in movie list container
 
         }
+
+
     }
+
+
 
     const getMovies = api.getMovies;
     const Next = api.Next;
@@ -125,7 +147,7 @@ const Model = ((api, view) => {
 // ~~~~~~~~~~~~Controller~~~~~~~~~~~~~~
 const appController = ( (model, view) => {
 
-    const state2 = new model.State2();
+    const state2 = new model.State2(); //one time object
     const movielist = document.querySelector(view.domStr2.movielist);
     let nextbtn = document.querySelector(view.domStr2.nextbtn);
     let backbtn = document.querySelector(view.domStr2.backbtn);
@@ -136,31 +158,36 @@ const appController = ( (model, view) => {
     const Next = () => {
         
         nextbtn.addEventListener("click", (event) => {
-           console.log( "Clicked on Next " +  document.getElementById( "start" ).value  );
+
+           //console.log( "Clicked on Next " +  document.getElementById( "start" ).value  );
             
-           console.log( "length " + state2.movielist.length  )
+           //console.log( "length " + state2.movielist.length  )
         
-            let start = parseInt( document.getElementById( "start" ).value );
+             let start = parseInt( document.getElementById( "start" ).value );
 
 
-            if ( (start+5) === state2.movielist.length )
-            {
-                nextbtn.style.display =  "none";
-            }
-            backbtn.style.display =  "block";
+            // if ( (start+5) === state2.movielist.length )
+            // {
+            //     nextbtn.style.display =  "none";
 
+            // }
+            // backbtn.style.display =  "block"; 
+
+
+            // model.state2.startindex += 1;
 
            const tmp = view.createMovie(state2.movielist , start + 1 );
            const movielist = document.querySelector(view.domStr2.movielist);
            view.renderMovie(movielist, tmp);
 
         });
+
     };
 
     const Back = () => {
 
         
-        backbtn.style.display =  "none";
+        // backbtn.style.display =  "none";
 
         
         backbtn.addEventListener("click", (event) => {
@@ -171,11 +198,11 @@ const appController = ( (model, view) => {
             let start = parseInt( document.getElementById( "start" ).value );
 
 
-            if ( start === 1 )
-            {
-                backbtn.style.display =  "none";
-            }
-            nextbtn.style.display =  "block";
+            // if ( start === 1 )
+            // {
+            //     backbtn.style.display =  "none";
+            // }
+            // nextbtn.style.display =  "block"; 
 
            const tmp = view.createMovie(state2.movielist , start - 1 );
            const movielist = document.querySelector(view.domStr2.movielist);
@@ -188,11 +215,14 @@ const appController = ( (model, view) => {
 
         model.getMovies().then( (movies) => {
             state2.movielist = movies;
-            //console.log( movies )
+            //the above line will call set function of state2 class
+            
         });
+        //console.log( "Came in init" );
     };
-    const bootstrap = () => {
 
+    const bootstrap = () => {
+        
         init();
         Next();
         Back();

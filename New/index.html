@@ -11,35 +11,42 @@
             href="https://fonts.googleapis.com/css2?family=Syne+Tactile&display=swap"
             rel="stylesheet"
         />
-        <link rel="stylesheet" href="./index.css" />
-        <script async src="./index.js">  </script>
+        <!-- <link rel="stylesheet" href="./index.css" /> -->
+        <script async src="./index.js"></script>
     </head>
     <body>
-        <header class="header">implement a todo list</header>
 
-        <main class="container">
-            <section class="todolist">
-                <header class="todolist-header">todolist</header>
-                <input
-                    type="text"
-                    class="todolist-input"
-                    placeholder="Input your todo..."
-                />
-                <ul class="todolist-container">
-                    <li>
-                        <span>test</span>
-                        <button>X</button>
-                    </li>
-                    <li>
-                        <span>test</span>
-                        <button>X</button>
-                    </li>
-                    <li>
-                        <span>test</span>
-                        <button>X</button>
-                    </li>
-                </ul>
-            </section>
-        </main>
+  
+
+        
+<div style="margin: auto; margin-top: 5%;
+            margin-left: 10%;">
+    <div style="float: left;" >
+    <input type="button" style="border-radius: 50%; font-size: 48px;  margin-top: 280px; " value="<" class="back-btn" />
+    </div>
+    
+
+    <div class="movielist-container" style="height: 800px;
+        width: 1500px;
+        overflow: auto;
+        float: left;
+        position: relative;
+        " >
+<!-- nothing here -->
+        
+    </div>
+
+    
+    <div style="float: left;" > 
+        <input type="button" style="border-radius: 50%; font-size: 48px; margin-top: 280px; "  value=">" class="next-btn" />
+    </div>
+</div>
+       
+<div  > 
+    <input type="text" placeholder="enter movie title" id="movie-title"   class="movie-title" />
+    <input type="button" id = "search" name="search"    value="search" class="search-btn" />
+    <img id="searched-movie"  src =  ""  />
+</div>
+
     </body>
 </html>
