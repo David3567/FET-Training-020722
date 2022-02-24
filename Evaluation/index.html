@@ -12,12 +12,25 @@
 
 <body>
     <main>
-        
+
         <div class="movie-holder">
             <div class="movie-container"></div>
         </div>
-        <button class="move-left"><</button>
-        <button class="move-right">></button>
+        <button class="move-left"><</button> 
+        <button class="move-right" data-slide="prev">></button>
+        <form name = "add-movie" class="add-movie-container">
+            <!-- <input type="radio" name="img-src" value="Select from local" id="img-local">
+            <label for="img-local">Select Img From Local...</label>
+            <input type="file" class="add-movie-img-local" placeholder="Input Img URL...">
+            <input type="radio" name="img-src" value="Select from URL" id="img-url">
+            <label for="img-url">Select Img From URL...</label> -->
+            <input type="text" name = "add-movie-img-url" class="add-movie-img-url" placeholder="Input Img URL...">
+            <input type="text" name="add-movie-title" class="add-movie-title" placeholder="Input Title...">
+            <input type="text" name="add-movie-updateInfo" class="add-movie-updateInfo" placeholder="Input Movie Info...">
+            <button class="add-movie-btn">Add Movie</button>
+        </form>
+
+
     </main>
 </body>
 

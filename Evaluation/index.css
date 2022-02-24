@@ -2,54 +2,102 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: cursive;
 }
 
 .movie-holder {
     position: fixed;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: linear-gradient(to bottom, pink, skyblue);
     display: flex;
     justify-content: space-between;
-    height: 40%;
+    height: 50%;
     width: 50%;
-
 }
 
 .movie-container {
-    height:100%;
+    position: relative;
+    height: 100%;
     width: 25%;
-    margin: 5px;
+    /* margin: 5px; */
+    padding: 5px;
     display: none;
-    font-size: 1em;
+    font-size: .9rem;
     font-family: cursive;
+    /* flex-grow: 1;*/
+    /* flex: 50%; */
+    overflow: hidden;
 }
 
-.movie-container img{
+.movie-container img {
     width: 100%;
-    height: 80%;
+    height: 75%;
 }
 
 
-.move-left{
+.move-left {
     display: none;
-    position:fixed;
-    top: 50%;
+    position: fixed;
+    top: 40%;
     left: 25%;
     transform: translate(-50%, -50%);
     height: 50px;
     width: 50px;
     border-radius: 50px;
-    
+
 }
 
-.move-right{
-    position:fixed;
-    top: 50%;
+.move-right {
+    position: fixed;
+    top: 40%;
     right: 25%;
     transform: translate(50%, -50%);
     height: 50px;
     width: 50px;
     border-radius: 50px;
+}
+
+.delete-btn {
+    height: 20px;
+    width: 20px;
+    border: none;
+    outline: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+}
+
+.add-movie-container {
+    position: fixed;
+    top: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 20%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    font-size: 1em;
+    font-family: cursive;
+}
+
+.add-movie-container * {
+    margin: 5px 0;
+    height: 2rem;
+    /* border: none; */
+}
+.add-movie-container input{
+    padding: 5px;
+}
+.add-movie-container button{
+    border: none;
+    background-color: antiquewhite;
+    font-size: 1rem;
+}
+
+.add-movie-container input:focus {
+    border: 1px solid skyblue;
+    outline: none;
 }
