@@ -35,6 +35,7 @@ const View = (() => {
         rightbn: ".move-right",
         leftbn: ".move-left",
         addform: ".add-movie-container",
+        search: ".search"
     };
     const render = (ele, tmp) => {
         ele.innerHTML = tmp;
@@ -54,9 +55,9 @@ const View = (() => {
         return tmp;
     };
     const show = (state, focus, viewnum) => {
-        // console.log(state);
-        // console.log(focus);
-        // console.log(state.movielist[0]);
+        console.log("viewnum",viewnum);
+        console.log(focus);
+        console.log(state.movielist[0]);
 
         for (let i = focus; i < focus + viewnum; i++) {
 
@@ -119,10 +120,25 @@ const appController = ((Model, View) => {
     const rightbn = document.querySelector(View.domStr.rightbn);
     const movielist = document.querySelector(View.domStr.movielist);
     const form = document.querySelector(View.domStr.addform);
+    const search = document.querySelector(View.domStr.search);
     // console.log(state.movielist);
     let viewnum = 4;
     let focus = 0;
 
+    const searchMovie = () => {
+        search.addEventListener("keydown", (event) => {
+            // console.log(event);
+            if(event.target.value !== ""){
+                state.movielist = state.movielist.filter(
+                    (search) => search.title.includes(event.target.value)
+                );
+                // console.log(state.movielist);
+                focus = 0;
+                viewnum = checkfocus(state, focus, viewnum).viewnum;
+                View.show(state, focus, viewnum);
+            }
+        });
+    };
     const leftMove = () => {
         leftbn.addEventListener("click", (event) => {
             let ele = document.getElementById(state.movielist[focus + viewnum - 1].id);
@@ -238,6 +254,7 @@ const appController = ((Model, View) => {
         rightMove();
         deleteMovie();
         addMovie();
+        searchMovie();
     };
 
     return {
