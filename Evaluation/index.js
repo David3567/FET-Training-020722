@@ -55,7 +55,7 @@ const View = (() => {
         return tmp;
     };
     const show = (state, focus, viewnum) => {
-        console.log("viewnum",viewnum);
+        console.log("viewnum", viewnum);
         console.log(focus);
         console.log(state.movielist[0]);
 
@@ -88,7 +88,7 @@ const Model = ((Api, View) => {
 
     class State {
         #movielist = [];
-
+        #searchlist = [];
         get movielist() {
             return this.#movielist;
         }
@@ -97,6 +97,15 @@ const Model = ((Api, View) => {
             const tmp = View.createTmp(this.#movielist);
             const movielist = document.querySelector(View.domStr.movielist);
             View.render(movielist, tmp);
+        }
+        get searchlist() {
+            return this.#searchlist;
+        }
+        set searchlist(newmovie) {
+            this.#searchlist = newmovie;
+            // const tmp = View.createTmp(this.#searchlist);
+            // const movielist = document.querySelector(View.domStr.movielist);
+            // View.render(movielist, tmp);
         }
     }
 
@@ -126,17 +135,25 @@ const appController = ((Model, View) => {
     let focus = 0;
 
     const searchMovie = () => {
-        search.addEventListener("keydown", (event) => {
+        search.addEventListener("keyup", (event) => {
             // console.log(event);
-            if(event.target.value !== ""){
-                state.movielist = state.movielist.filter(
+                state.searchlist = state.movielist.filter(
                     (search) => search.title.includes(event.target.value)
                 );
-                // console.log(state.movielist);
+                console.log("LISTEN", state.searchlist);
                 focus = 0;
-                viewnum = checkfocus(state, focus, viewnum).viewnum;
-                View.show(state, focus, viewnum);
-            }
+
+                
+                if (state.searchlist.length < viewnum) {
+                    viewnum = state.searchlist.length;
+                }
+
+                for (let i = focus; i < focus + viewnum; i++) {
+
+                    let ele = document.getElementById(state.searchlist[i].id);
+                    // console.log(ele);
+                    ele.style.display = "block";
+                }
         });
     };
     const leftMove = () => {
@@ -192,7 +209,7 @@ const appController = ((Model, View) => {
                 focus = checkfocus(state, focus, viewnum).focus;
                 viewnum = checkfocus(state, focus, viewnum).viewnum;
                 View.show(state, focus, viewnum);
-            }else{
+            } else {
                 event.preventDefault();
                 alert("Please input all infos!");
             }
